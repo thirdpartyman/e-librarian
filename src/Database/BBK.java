@@ -1,0 +1,47 @@
+package Database;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import ComboBox.Filterable;
+
+@Entity
+@Table (name = "bbk")
+public class BBK implements Comparable<BBK>, Filterable {
+	public BBK() {}
+    public BBK(String index, String text) {
+    	this.index = index;
+		this.text = text;
+	}
+
+	@Id
+	@Column (name = "id")
+	public String index;
+    
+    @Column(nullable = false)
+    public String text;
+    
+    @Override
+    public String toString()
+    {
+		return index + ' ' + text;   	
+    }
+    
+	@Override
+	public int compareTo(BBK o) {
+		return index.compareTo(o.index);
+	}
+	
+	@Override
+	public boolean tryfilter(Object obj) {
+		return index.startsWith((String)obj);
+	}
+	
+	@Override
+	public Object getFilterableField() {
+		return index;
+	}
+}

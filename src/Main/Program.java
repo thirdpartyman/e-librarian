@@ -1,18 +1,16 @@
 package Main;
-import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Locale;
 
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import Database.BBK;
+import Database.HibernateSessionFactoryUtil;
 
 
 public class Program {

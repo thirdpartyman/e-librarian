@@ -135,7 +135,7 @@ public abstract class MyDialog extends JDialog {
 		statusBar.add(new SaveAndExitAction()).setFocusPainted(false);
 	}
 
-	// закрытие окна диалога по нажатию клавиши Escape
+	// Р·Р°РєСЂС‹С‚РёРµ РѕРєРЅР° РґРёР°Р»РѕРіР° РїРѕ РЅР°Р¶Р°С‚РёСЋ РєР»Р°РІРёС€Рё Escape
 	private static void setEscapeCloseOperation(final JDialog dialog) {
 		final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 		final String dispatchWindowClosingActionMapKey = "com.spodding.tackline.dispatch:WINDOW_CLOSING";
@@ -217,7 +217,7 @@ public abstract class MyDialog extends JDialog {
 		private static final long serialVersionUID = 1L;
 
 		SaveAction() {
-			putValue(NAME, "Сохранить");
+			putValue(NAME, "РЎРѕС…СЂР°РЅРёС‚СЊ");
 		}
 
 		public void actionPerformed(ActionEvent event) {
@@ -229,7 +229,7 @@ public abstract class MyDialog extends JDialog {
 		private static final long serialVersionUID = 1L;
 
 		SaveAndExitAction() {
-			putValue(NAME, "Сохранить и выйти");
+			putValue(NAME, "РЎРѕС…СЂР°РЅРёС‚СЊ Рё РІС‹Р№С‚Рё");
 		}
 
 		public void actionPerformed(ActionEvent event) {

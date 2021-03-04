@@ -28,6 +28,15 @@ public class GenericComboBox<T> extends JComboBox<T> {
 	String filter = "";
 
 	public GenericComboBox() {
+		init();
+	}
+
+	public GenericComboBox(Vector<T> items) {
+		init();
+		setItems(items);
+	}
+
+	public void init() {
 
 		this.setModel(model);
 		this.setEditable(true);
@@ -35,7 +44,7 @@ public class GenericComboBox<T> extends JComboBox<T> {
 		Consumer<String> onFilter = (s) -> {
 			model.filter(s);
 
-			hidePopup();// для перерасчёта высоты popup-меню.
+			hidePopup();// РґР»СЏ РїРµСЂРµСЂР°СЃС‡С‘С‚Р° РІС‹СЃРѕС‚С‹ popup-РјРµРЅСЋ.
 			showPopup();
 		};
 
@@ -43,7 +52,7 @@ public class GenericComboBox<T> extends JComboBox<T> {
 			public void focusLost(FocusEvent e) {
 				if (filter.isEmpty())
 					return;
-				model.filter(filter);// если не был выбран элемент, выбираем его по введенному фильтру
+				model.filter(filter);// РµСЃР»Рё РЅРµ Р±С‹Р» РІС‹Р±СЂР°РЅ СЌР»РµРјРµРЅС‚, РІС‹Р±РёСЂР°РµРј РµРіРѕ РїРѕ РІРІРµРґРµРЅРЅРѕРјСѓ С„РёР»СЊС‚СЂСѓ
 				GenericComboBox.this.getEditor().setItem(model.v.get(0));
 			}
 		});
@@ -78,7 +87,7 @@ public class GenericComboBox<T> extends JComboBox<T> {
 				if (item instanceof String)
 					GenericComboBox.this.getEditor().setItem(filter);
 				else if (item != null)
-					GenericComboBox.this.getEditor().setItem(((Filterable)item).getFilterableField());
+					GenericComboBox.this.getEditor().setItem(((Filterable) item).getFilterableField());
 			}
 
 			public void keyReleased(KeyEvent e) {
@@ -100,10 +109,10 @@ public class GenericComboBox<T> extends JComboBox<T> {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					var item = ((GenericComboBox) e.getSource()).getSelectedItem();
-					System.err.println(item);
-					if (!(item instanceof String)) {
-						filter = ((Filterable) item).getFilterableField().toString();
-						GenericComboBox.this.setSelectedItem(item);
+					if (!(item instanceof String)) {						
+//						filter = ((Filterable) item).getFilterableField().toString();
+//						GenericComboBox.this.setSelectedItem(item);
+//						System.err.println(model.getSelectedItem());
 						GenericComboBox.this.getEditor().setItem(model.getSelectedItem());
 //						onFilter.accept(filter);
 //						model.filter("");
@@ -140,7 +149,7 @@ public class GenericComboBox<T> extends JComboBox<T> {
 			return (T) v.get(index);
 		}
 
-		// выставляем фильтр и фильтруем содержание
+		// РІС‹СЃС‚Р°РІР»СЏРµРј С„РёР»СЊС‚СЂ Рё С„РёР»СЊС‚СЂСѓРµРј СЃРѕРґРµСЂР¶Р°РЅРёРµ
 		public void filter(String filter) {
 			v = new Vector(vsrc.stream().filter(p -> ((Filterable) p).tryfilter(filter)).collect(Collectors.toList()));
 			fireContentsChanged(this, 0, vsrc.size());

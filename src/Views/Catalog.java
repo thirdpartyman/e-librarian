@@ -2,113 +2,74 @@ package Views;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JTextField;
+import javax.swing.table.JTableHeader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import ComboBox.GenericComboBox;
+import Database.Author;
+import Database.BBK;
 import Database.Book;
 import Database.HibernateSessionFactoryUtil;
+import Database.PublishHouse;
+import etc.GenericTable;
+import etc.MyTextField;
+import etc.ReleaseYearSpinner;
+import etc.SpinnerEditor;
 
 public class Catalog extends Pane {
 
-	Table table = new Table<Book>(Book.class, new String[] { "ISBN", "Название", "ББК", "Автор", "Издательство", "Год выпуска" });
+	GenericTable table = new GenericTable<Book>(
+			new String[] { "ISBN", "Название", "ББК", "Автор", "Издательство", "Год выпуска" });
 
 	public Catalog() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+//		JTable table = new JTable(5, 5);
+		Font font = new Font("Verdana", Font.PLAIN, 12);
+		table.setFont(font);
+		table.setRowHeight(30);
+		table.setBackground(Color.orange);
+//		table.setForeground(Color.white);
+		
+		
+	    JTableHeader header = table.getTableHeader();
+	    header.setPreferredSize(new Dimension(header.getPreferredSize().width, 32));
+	    table.getTableHeader().setOpaque(false);
+	    table.getTableHeader().setBackground(new Color(93, 163, 226));
+
+		
+		
+		List<Component> cmp = new ArrayList<Component>();
+		cmp.add(new MyTextField());
+		((MyTextField)cmp.get(cmp.size() - 1)).setFormat("#-###-#####-#");
+		cmp.add(new MyTextField());
+		cmp.add(new GenericComboBox<BBK>(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class))));
+		cmp.add(new GenericComboBox<Author>(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class))));
+		cmp.add(new GenericComboBox<PublishHouse>(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class))));
+		cmp.add(new ReleaseYearSpinner());
+		
+		ReleaseYearSpinner releaseYearSpinner = new ReleaseYearSpinner();
+		
+		int i = 0;
+		for(; i != 2; i++)
+			table.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor((JTextField)cmp.get(i)));
+		for(; i != 2+3; i++)
+			table.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor((GenericComboBox)cmp.get(i)));
+		table.getColumnModel().getColumn(i).setCellEditor(new SpinnerEditor((ReleaseYearSpinner)cmp.get(i)));
+
 		add(new JScrollPane(table));
+		
+		table.setItems(HibernateSessionFactoryUtil.loadAllData(Book.class));
 	}
 
-	class Table<T> extends JTable {
-		TableModel model = new TableModel();
-
-		Table(Class<T> clazz, String[] columns) {
-			model.columns = columns;
-			setModel(model);
-			setAutoCreateRowSorter(true);
-//			setDefaultRenderer(String.class, new TableCellRenderer());
-			model.items = HibernateSessionFactoryUtil.loadAllData(clazz);
-
-			
-//			System.out.println(model.items.size());
-//			getColumnModel().getColumn(0).setMaxWidth(100);
-//			getColumnModel().getColumn(0).setPreferredWidth(100);
-//			getColumnModel().getColumn(2).setMaxWidth(150);
-//			getColumnModel().getColumn(2).setPreferredWidth(150);
-
-//			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-//			centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-//			getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
-//			getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
-		}
-
-
-
-		private class TableCellRenderer extends DefaultTableCellRenderer {
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				c.setBackground(Color.white);
-				return c;
-			}
-		}
-
-		class TableModel extends AbstractTableModel {
-			public List<T> items = new ArrayList<>();
-			private String[] columns;
-
-			public int getColumnCount() {
-				return columns.length;
-			}
-
-			public int getRowsCount() {
-				return items.size();
-			}
-
-			public Object getValueAt(int row, int col) {
-				T book = items.get(row);
-
-				Class myClass = book.getClass();
-				Field[] fields = myClass.getDeclaredFields();
-				Object value;
-				try {
-					value = fields[col].get(book);
-				} catch (IllegalAccessException e) {
-					value = null;
-				}
-				return value;
-			}
-
-			public String getColumnName(int col) {
-				return columns[col];
-			}
-
-			@Override
-			public int getRowCount() {
-				return items.size();
-			}
-
-			@Override
-			public Class<?> getColumnClass(int columnIndex) {
-				if (items.isEmpty()) {
-					return Object.class;
-				}
-				return getValueAt(0, columnIndex).getClass();
-			}
-
-		}
-
-	}
 }

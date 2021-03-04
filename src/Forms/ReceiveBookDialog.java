@@ -137,7 +137,7 @@ public class ReceiveBookDialog extends MyDialog {
 		book.bbk = (BBK) bbkComboBox.getSelectedItem();
 		book.author = (Author) authorComboBox.getSelectedItem();
 		book.publishHouse = (PublishHouse) publishHouseComboBox.getSelectedItem();
-		book.releaseYear = releaseYearSpinner.getValue();
+		book.releaseYear = releaseYearSpinner.getShort();
 		
 		try {
 			 StringWriter writer = new StringWriter();

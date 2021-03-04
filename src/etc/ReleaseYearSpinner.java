@@ -13,8 +13,7 @@ public class ReleaseYearSpinner extends MySpinner {
 				(short) min, Utils.currentYear, (short) 1));
 	}
 	
-	@Override
-	public Short getValue()
+	public Short getShort()
 	{
 		if (super.getValue() instanceof Short)
 			return null;

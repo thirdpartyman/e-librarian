@@ -7,11 +7,11 @@ import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import Components.MyDialog;
+import Components.MyGroupBox;
+import Components.MyTextField;
+import Components.ReleaseYearSpinner;
 import Database.Author;
-import etc.MyDialog;
-import etc.MyGroupBox;
-import etc.MyTextField;
-import etc.ReleaseYearSpinner;
 
 public class AuthorDialog extends MyDialog {
 

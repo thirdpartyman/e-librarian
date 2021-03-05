@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import Components.MyButton;
 import Forms.AuthorDialog;
 import Forms.ReceiveBookDialog;
 import Views.Catalog;
-import etc.MyButton;
 
 public class MainForm extends JFrame {
 

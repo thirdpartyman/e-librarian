@@ -23,7 +23,7 @@ public class HibernateSessionFactoryUtil {
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			try {
-				LogManager.getLogManager().reset();// убираем логирование при создании соединения (слишком уж его много)
+//				LogManager.getLogManager().reset();// убираем логирование при создании соединения (слишком уж его много)
 
 				Configuration configuration = new Configuration();
 
@@ -35,11 +35,11 @@ public class HibernateSessionFactoryUtil {
 				settings.put(Environment.PASS, "password");
 				settings.put(Environment.DIALECT, "org.hibernate.dialect.OracleDialect");
 
-//				settings.put(Environment.SHOW_SQL, "true");// вывод генерируемых sql запросов
+				settings.put(Environment.SHOW_SQL, "true");// вывод генерируемых sql запросов
 
 				settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
-				settings.put(Environment.HBM2DDL_AUTO, "update");
+//				settings.put(Environment.HBM2DDL_AUTO, "update");
 //				settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
 				configuration.setProperties(settings);

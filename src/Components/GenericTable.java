@@ -1,4 +1,4 @@
-package etc;
+package Components;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,11 +16,16 @@ public class GenericTable<T> extends JTable {
 	private TableModel model = new TableModel();
 
 	public GenericTable(String[] columns) {
-		model.columns = columns;
+		setHeader(columns);
 		setModel(model);
-			setAutoCreateRowSorter(true);
+		setAutoCreateRowSorter(true);
 //			setDefaultRenderer(String.class, new TableCellRenderer());
 //			model.items = HibernateSessionFactoryUtil.loadAllData(clazz);
+	}
+	
+	public void setHeader(String[] columns)
+	{
+		model.columns = columns;
 	}
 	
 	public void setItems(List vec) {
@@ -41,7 +46,7 @@ public class GenericTable<T> extends JTable {
 
 	private class TableModel extends AbstractTableModel {
 		public List<T> items = new ArrayList<>();
-		private String[] columns;
+		private String[] columns = new String[0];
 
 		public int getColumnCount() {
 			return columns.length;

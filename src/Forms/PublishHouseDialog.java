@@ -7,11 +7,11 @@ import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import Components.MyDialog;
+import Components.MyGroupBox;
+import Components.MyTextField;
 import Database.Author;
 import Database.PublishHouse;
-import etc.MyDialog;
-import etc.MyGroupBox;
-import etc.MyTextField;
 
 public class PublishHouseDialog extends MyDialog {
 

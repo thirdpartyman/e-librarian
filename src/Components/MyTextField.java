@@ -1,4 +1,4 @@
-package etc;
+package Components;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -33,7 +33,17 @@ public class MyTextField extends JFormattedTextField {
 	        formatter.install(this);
 	    } catch (java.text.ParseException exc) {
 	        System.err.println("formatter is bad: " + exc.getMessage());
-	        System.exit(-1);
+	    }
+	}
+	
+	public void setFormat(String s, char placeholder)
+	{
+	    try {
+		    MaskFormatter formatter = new MaskFormatter(s);
+	        formatter.setPlaceholderCharacter(placeholder);
+	        formatter.install(this);
+	    } catch (java.text.ParseException exc) {
+	        System.err.println("formatter is bad: " + exc.getMessage());
 	    }
 	}
 

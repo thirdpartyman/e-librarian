@@ -20,16 +20,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ComboBox.GenericComboBox;
+import Components.MyButton;
+import Components.MyDialog;
+import Components.MyGroupBox;
+import Components.MyTextField;
+import Components.ReleaseYearSpinner;
 import Database.Author;
 import Database.BBK;
 import Database.Book;
 import Database.HibernateSessionFactoryUtil;
 import Database.PublishHouse;
-import etc.MyButton;
-import etc.MyDialog;
-import etc.MyGroupBox;
-import etc.MyTextField;
-import etc.ReleaseYearSpinner;
 
 public class ReceiveBookDialog extends MyDialog {
 
@@ -57,9 +57,9 @@ public class ReceiveBookDialog extends MyDialog {
 
 		isbnTextField.setFormat("#-###-#####-#");
 
-		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
-		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
-		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+//		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
+//		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
+//		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
 	}
 
 	private void createLayout() {

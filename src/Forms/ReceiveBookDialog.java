@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -16,15 +14,13 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ComboBox.GenericComboBox;
 import Components.MyButton;
 import Components.MyDialog;
 import Components.MyGroupBox;
 import Components.MyTextField;
 import Components.ReleaseYearSpinner;
+import Components.Utils;
 import Database.Author;
 import Database.BBK;
 import Database.Book;
@@ -57,9 +53,9 @@ public class ReceiveBookDialog extends MyDialog {
 
 		isbnTextField.setFormat("#-###-#####-#");
 
-//		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
-//		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
-//		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
+		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
+		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
 	}
 
 	private void createLayout() {
@@ -139,14 +135,7 @@ public class ReceiveBookDialog extends MyDialog {
 		book.publishHouse = (PublishHouse) publishHouseComboBox.getSelectedItem();
 		book.releaseYear = releaseYearSpinner.getShort();
 		
-		try {
-			 StringWriter writer = new StringWriter();
-			 ObjectMapper mapper = new ObjectMapper();			 
-			 String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(book);
-	         System.out.println(jsonInString);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		Utils.print(book);
 	}
 	
 	@Override

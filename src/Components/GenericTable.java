@@ -30,6 +30,7 @@ public class GenericTable<T> extends JTable {
 	
 	public void setItems(List vec) {
 		model.items = vec;
+		this.updateUI();
 //		model.filter("");
 	}
 

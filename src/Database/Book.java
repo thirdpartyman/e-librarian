@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @Entity
 @Table (name = "books")
-@JsonAutoDetect
+//@JsonAutoDetect
 public class Book {
     @Id
     public String ISBN;
@@ -30,5 +30,6 @@ public class Book {
 	@JoinColumn(name = "publish_house")
 	public PublishHouse publishHouse;
 	
+    @Column(name = "release_year")
 	public Short releaseYear;
 }

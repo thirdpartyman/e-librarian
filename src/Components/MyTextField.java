@@ -25,10 +25,11 @@ public class MyTextField extends JFormattedTextField {
 		enableSelectionOnClick();
 	}
 
+	public MaskFormatter formatter = null;
 	public void setFormat(String s)
 	{
 	    try {
-		    MaskFormatter formatter = new MaskFormatter(s);
+		    formatter = new MaskFormatter(s);
 	        formatter.setPlaceholderCharacter('_');
 	        formatter.install(this);
 	    } catch (java.text.ParseException exc) {

@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,24 +35,41 @@ import org.hibernate.Session;
 
 import ComboBox.GenericComboBox;
 import Components.GenericTable;
+import Components.MySpinner;
 import Components.MyTextField;
-import Components.ReleaseYearSpinner;
 import Components.SearchPanel;
 import Components.SpinnerEditor;
 import Database.Author;
 import Database.BBK;
 import Database.Book;
-import Database.HibernateSessionFactoryUtil;
+import Database.HibernateUtil;
 import Database.PublishHouse;
+import Forms.ReceiveBookDialog;
+import Main.MainForm;
 
 public class Catalog extends Pane {
 	SearchPanel searchPanel;
 	GenericTable table;
+	ViewMenu tableMenu;
+	
+	ReceiveBookDialog receiveBookDialog;
 	
 	public Catalog() {
+		init();
+		receiveBookDialog = new ReceiveBookDialog();
+	}
+
+	public Catalog(MainForm mainForm) {
+		init();
+		receiveBookDialog = new ReceiveBookDialog(mainForm);
+	}
+	
+	private void init()
+	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createSearchPanel());
 		add(new JScrollPane(createTable()));
+		add(createViewMenu());
 	}
 
 	private SearchPanel createSearchPanel() {
@@ -65,9 +85,9 @@ public class Catalog extends Pane {
 		MyTextField releaseYear2 = new MyTextField();
 		releaseYear2.setFormat("####", ' ');
 		releaseYear2.setColumns(3);
-		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
-		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
-		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+		bbkComboBox.setItems(new Vector(HibernateUtil.loadAllData(BBK.class)));
+		authorComboBox.setItems(new Vector(HibernateUtil.loadAllData(Author.class)));
+		publishHouseComboBox.setItems(new Vector(HibernateUtil.loadAllData(PublishHouse.class)));
 
 		JPanel p;
 		p = new JPanel();
@@ -108,7 +128,7 @@ public class Catalog extends Pane {
 			System.out.println(releaseYear2.getText());
 			
 						
-			Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+			Session session = HibernateUtil.getSessionFactory().openSession();
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<Book> cr = cb.createQuery(Book.class);
 			Root<Book> root = cr.from(Book.class);
@@ -141,7 +161,7 @@ public class Catalog extends Pane {
 		searchPanel.simpleSearchRun = (text) -> {
 			if (text.isEmpty())
 			{
-				table.setItems(HibernateSessionFactoryUtil.loadAllData(Book.class));
+				table.setItems(HibernateUtil.loadAllData(Book.class));
 				return;
 			}
 			
@@ -153,7 +173,7 @@ public class Catalog extends Pane {
 					 .collect(Collectors.joining(" AND "));
 			System.err.println(sql);
 
-			var session = HibernateSessionFactoryUtil.getSessionFactory().openSession();			
+			var session = HibernateUtil.getSessionFactory().openSession();			
 			
 			//CriteriaBuilder throws exception using LIKE
 			Query query= session.createQuery(sql);
@@ -168,7 +188,7 @@ public class Catalog extends Pane {
 	}
 
 	private GenericTable createTable() {
-		table = new GenericTable<Book>(
+		table = new GenericTable<Book>(Book.class,
 				new String[] { "ISBN", "Название", "ББК", "Автор", "Издательство", "Год выпуска" });
 //		table.setHeader(new String[] { "ISBN", "Название", "ББК", "Автор", "Издательство", "Год выпуска" });
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -189,21 +209,47 @@ public class Catalog extends Pane {
 		cmp.add(new MyTextField());
 		((MyTextField) cmp.get(cmp.size() - 1)).setFormat("#-###-#####-#");
 		cmp.add(new MyTextField());
-		cmp.add(new GenericComboBox<BBK>(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class))));
-		cmp.add(new GenericComboBox<Author>(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class))));
-		cmp.add(new GenericComboBox<PublishHouse>(
-				new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class))));
-		cmp.add(new ReleaseYearSpinner());
+		cmp.add(new GenericComboBox<BBK>(new Vector(HibernateUtil.loadAllData(BBK.class))));
+		cmp.add(new GenericComboBox<Author>(new Vector(HibernateUtil.loadAllData(Author.class))));
+		cmp.add(new GenericComboBox<PublishHouse>(new Vector(HibernateUtil.loadAllData(PublishHouse.class))));
+		cmp.add(new MySpinner());
 
 		int i = 0;
 		for (; i != 2; i++)
-			table.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor((JTextField) cmp.get(i)));
+			table.getColumnModel().getColumn(i + 1).setCellEditor(new DefaultCellEditor((MyTextField) cmp.get(i)));
 		for (; i != 2 + 3; i++)
-			table.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor((GenericComboBox) cmp.get(i)));
-		table.getColumnModel().getColumn(i).setCellEditor(new SpinnerEditor((ReleaseYearSpinner) cmp.get(i)));
+			table.getColumnModel().getColumn(i + 1).setCellEditor(new DefaultCellEditor((GenericComboBox) cmp.get(i)));
+		table.getColumnModel().getColumn(i + 1).setCellEditor(new SpinnerEditor((MySpinner) cmp.get(i)));
+		
+//		table.getColumnModel().getColumn(6).setMaxWidth(table.getColumnModel().getColumn(6).getPreferredWidth() + 4);
 
-		table.setItems(HibernateSessionFactoryUtil.loadAllData(Book.class));
+		table.addMouseListener(new MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	            if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+	            	receiveBookDialog.show(table.getSelectedItem());
+	            }
+	        }
+	    });		
+		
+		
+		table.setItems(HibernateUtil.loadAllData(Book.class));
 
 		return table;
+	}
+	
+
+	private ViewMenu createViewMenu()
+	{
+		tableMenu = new ViewMenu();
+		tableMenu.addReloadButtonListener(e -> table.reload());
+		
+		tableMenu.addSaveChangesButtonListener(e -> table.saveChanges());
+		
+		tableMenu.addEnableEditListener(e -> {
+			boolean value = e.getStateChange() == ItemEvent.SELECTED;
+			for(int index = 2; index < 2 + 5; index++)
+				table.setEditable(index, value);
+		});
+		return tableMenu;
 	}
 }

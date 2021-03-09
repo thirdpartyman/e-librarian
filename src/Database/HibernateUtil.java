@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
+import javax.persistence.FetchType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -20,7 +21,7 @@ import org.hibernate.service.ServiceRegistry;
 
 //соединение с базой данных Oracle через интерфейс Hibernate
 
-public class HibernateSessionFactoryUtil {
+public class HibernateUtil {
 	private static SessionFactory sessionFactory;
 
 	public static SessionFactory getSessionFactory() {
@@ -44,15 +45,11 @@ public class HibernateSessionFactoryUtil {
 				settings.put(Environment.PASS, "");
 				settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
 				
-//                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-//                settings.put(Environment.URL, "jdbc:mysql://localhost/test");
-//                settings.put(Environment.USER, "root");
-//                settings.put(Environment.PASS, "");
-//                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-
+				
 				settings.put(Environment.SHOW_SQL, "true");// вывод генерируемых sql запросов
 
 				settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+				settings.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, true);//to avoid error "Hibernate could not initialize proxy – no Session" due to FetchType.LAZY
 
 				settings.put(Environment.HBM2DDL_AUTO, "update");
 //				settings.put(Environment.HBM2DDL_AUTO, "create-drop");
@@ -101,6 +98,18 @@ public class HibernateSessionFactoryUtil {
 		var session = getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		session.update(object);
+		transaction.commit();
+		session.close();
+	}
+	
+	public static <T> void update(List<T> list) {
+		var session = getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		for (T item : list)
+		{
+			item = (T) session.merge(item);
+			session.update(item);
+		}
 		transaction.commit();
 		session.close();
 	}

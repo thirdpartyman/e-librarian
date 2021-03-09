@@ -8,11 +8,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.transaction.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import ComboBox.Filterable;
 
 @Entity
 @Table (name = "publish_houses", uniqueConstraints=@UniqueConstraint(columnNames = {"name", "city"})) 
+@Transactional
+@JsonAutoDetect
 public class PublishHouse implements Serializable, Comparable<PublishHouse>, Filterable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

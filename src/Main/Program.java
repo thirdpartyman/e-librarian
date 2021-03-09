@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import Database.BBK;
-import Database.HibernateSessionFactoryUtil;
+import Database.HibernateUtil;
 
 
 public class Program {

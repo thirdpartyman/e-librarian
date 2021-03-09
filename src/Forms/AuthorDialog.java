@@ -9,17 +9,27 @@ import javax.swing.border.EmptyBorder;
 
 import Components.MyDialog;
 import Components.MyGroupBox;
+import Components.MySpinner;
 import Components.MyTextField;
-import Components.ReleaseYearSpinner;
 import Database.Author;
 
 public class AuthorDialog extends MyDialog {
 
 	MyTextField nameTextField = new MyTextField();
-	ReleaseYearSpinner birthYearSpinner = new ReleaseYearSpinner(-4000);
+	MySpinner birthYearSpinner = new MySpinner();
 
+	public AuthorDialog() {
+		super();
+		init();
+	}
+	
 	public AuthorDialog(Window parent) {
 		super(parent);
+		init();
+	}
+	
+	private void init()
+	{
 		createLayout();// разметка
 
 		ImageIcon icon = new ImageIcon("icons\\typewriter.png");
@@ -27,6 +37,7 @@ public class AuthorDialog extends MyDialog {
 		
 		saveTitle = "Добавить запись об авторе";
 		updateTitle = "Изменить запись об авторе";
+
 	}
 
 	
@@ -59,7 +70,7 @@ public class AuthorDialog extends MyDialog {
 	{
 		Author author = (Author)this.object;
 		author.name = nameTextField.getText().trim();
-		author.birthYear = birthYearSpinner.getShort();
+		author.birthYear = (Short) birthYearSpinner.getValue();
 	}
 	
 	@Override

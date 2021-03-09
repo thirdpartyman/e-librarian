@@ -50,6 +50,8 @@ public class GenericComboBox<T> extends JComboBox<T> {
 
 		this.getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
+				super.focusLost(e);
+				System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				if (filter.isEmpty())
 					return;
 				model.filter(filter);// если не был выбран элемент, выбираем его по введенному фильтру
@@ -79,7 +81,7 @@ public class GenericComboBox<T> extends JComboBox<T> {
 			}
 		});
 
-		this.getEditor().getEditorComponent().addKeyListener((KeyListener) new KeyAdapter() {
+		this.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 
 			public void keyPressed(KeyEvent e) {
 //				GenericComboBox.this.getEditor().setItem(filter);

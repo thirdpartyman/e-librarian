@@ -20,12 +20,12 @@ public class Formular implements Serializable {
 	private int id;
 	
 //	@Id
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reader_card_number")
 	Reader reader;
 
 //	@Id
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ISBN")
 	Book book;
 
@@ -38,7 +38,7 @@ public class Formular implements Serializable {
 	Date returnDate;
 
 //	@Id
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "librarian_id")
 	Librarian librarian;
 }

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 
 import javax.persistence.PersistenceException;
 import javax.swing.AbstractAction;
@@ -29,7 +30,7 @@ import javax.swing.border.CompoundBorder;
 import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 
-import Database.HibernateSessionFactoryUtil;
+import Database.HibernateUtil;
 
 public abstract class MyDialog extends JDialog {
 
@@ -123,6 +124,11 @@ public abstract class MyDialog extends JDialog {
 		init();
 	}
 
+	public MyDialog(String title) {
+		setTitle(title);
+		init();
+	}
+
 	private void createStatusBar() {
 		statusBar.setFloatable(false);
 		Border border = BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(150, 150, 150));
@@ -179,7 +185,7 @@ public abstract class MyDialog extends JDialog {
 		super.show();
 	}
 
-	protected abstract void getInfo();
+	protected abstract void getInfo() throws ParseException;
 
 	protected abstract void setInfo();
 
@@ -188,15 +194,16 @@ public abstract class MyDialog extends JDialog {
 	
 	private boolean save()
 	{
-		getInfo();
 		try {
+			getInfo();
+
 			if (showflag) {
-				HibernateSessionFactoryUtil.insert(object);
+				HibernateUtil.insert(object);
 
 				showflag = false;
 				setTitle(updateTitle);
 			} else {
-				HibernateSessionFactoryUtil.update(object);
+				HibernateUtil.update(object);
 			}
 			
 		} catch (ConstraintViolationException e) {
@@ -211,6 +218,10 @@ public abstract class MyDialog extends JDialog {
 		}catch (PersistenceException e) {
 			JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
 					e.toString(), JOptionPane.ERROR_MESSAGE);
+			return false;
+		} catch (ParseException e) {
+			JOptionPane.showMessageDialog(MyDialog.this, ((Exception)e.getSuppressed()[0]).getMessage(),
+					e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 

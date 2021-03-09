@@ -1,16 +1,19 @@
 package Database;
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 
 @Entity
 @Table (name = "readers")
+@Transactional
+@JsonAutoDetect
 public class Reader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +28,5 @@ public class Reader {
 	String phone;
 	
 	@Column (name = "passport_number", nullable = false)
-	int passportNumber;//6 öèôð
+	int passportNumber;//6 Ñ†Ð¸Ñ„Ñ€
 }

@@ -31,7 +31,7 @@ public class MainForm extends JFrame {
 	private static final long serialVersionUID = 2062760208030859011L;
 	
 	
-	Catalog catalogView = new Catalog();
+	Catalog catalogView = new Catalog(this);
 	ReceiveBookDialog receiveBookDialog = new ReceiveBookDialog(this);
 	AuthorDialog authorDialog = new AuthorDialog(this);
 

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
@@ -15,6 +16,7 @@ import ComboBox.Filterable;
 
 @Entity
 @Table (name = "authors", uniqueConstraints=@UniqueConstraint(columnNames = {"name", "birth_year"})) 
+@Transactional
 @JsonAutoDetect
 public class Author implements Serializable, Comparable<Author>, Filterable {
     @Id

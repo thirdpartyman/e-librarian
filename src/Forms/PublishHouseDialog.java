@@ -18,8 +18,18 @@ public class PublishHouseDialog extends MyDialog {
 	MyTextField nameTextField = new MyTextField();
 	MyTextField cityTextField = new MyTextField();
 
+	public PublishHouseDialog() {
+		super();
+		init();
+	}
+	
 	public PublishHouseDialog(Window parent) {
 		super(parent);
+		init();
+	}
+
+	private void init()
+	{
 		createLayout();// разметка
 
 		ImageIcon icon = new ImageIcon("icons\\multifunction-printer.png");
@@ -28,7 +38,6 @@ public class PublishHouseDialog extends MyDialog {
 		saveTitle = "Добавить запись об издательстве";
 		updateTitle = "Изменить запись об издательстве";
 	}
-
 	
 	private void createLayout() {
 		

@@ -2,14 +2,14 @@ package Forms;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -18,13 +18,12 @@ import ComboBox.GenericComboBox;
 import Components.MyButton;
 import Components.MyDialog;
 import Components.MyGroupBox;
+import Components.MySpinner;
 import Components.MyTextField;
-import Components.ReleaseYearSpinner;
-import Components.Utils;
 import Database.Author;
 import Database.BBK;
 import Database.Book;
-import Database.HibernateSessionFactoryUtil;
+import Database.HibernateUtil;
 import Database.PublishHouse;
 
 public class ReceiveBookDialog extends MyDialog {
@@ -37,13 +36,20 @@ public class ReceiveBookDialog extends MyDialog {
 	GenericComboBox bbkComboBox = new GenericComboBox<BBK>();
 	GenericComboBox authorComboBox = new GenericComboBox<Author>();
 	GenericComboBox publishHouseComboBox = new GenericComboBox<PublishHouse>();
-	ReleaseYearSpinner releaseYearSpinner = new ReleaseYearSpinner();
+	MySpinner releaseYearSpinner = new MySpinner();
 
-	public ReceiveBookDialog(Frame parent) {
+	public ReceiveBookDialog() {
+		super("Добавить книгу");
+		init();
+	}
+	
+	public ReceiveBookDialog(Window parent) {
 		super(parent, "Добавить книгу");
-		setModalityType(ModalityType.MODELESS);
-		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-		setLocationRelativeTo(getParent());
+		init();
+	}
+	
+	private void init()
+	{
 		createLayout();// разметка
 
 		saveTitle = "Добавить запись о книге";
@@ -53,9 +59,10 @@ public class ReceiveBookDialog extends MyDialog {
 
 		isbnTextField.setFormat("#-###-#####-#");
 
-		bbkComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(BBK.class)));
-		authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
-		publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+		bbkComboBox.setItems(new Vector(HibernateUtil.loadAllData(BBK.class)));
+		authorComboBox.setItems(new Vector(HibernateUtil.loadAllData(Author.class)));
+		publishHouseComboBox.setItems(new Vector(HibernateUtil.loadAllData(PublishHouse.class)));
+
 	}
 
 	private void createLayout() {
@@ -78,11 +85,11 @@ public class ReceiveBookDialog extends MyDialog {
 			btn.addActionListener(e -> authorDialog.show());
 			authorDialog.addWindowListener(new WindowAdapter() {
 				public void windowClosed(WindowEvent e) {
-					authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
+					authorComboBox.setItems(new Vector(HibernateUtil.loadAllData(Author.class)));
 				}
 
 				public void windowClosing(WindowEvent e) {
-					authorComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(Author.class)));
+					authorComboBox.setItems(new Vector(HibernateUtil.loadAllData(Author.class)));
 				}
 			});
 			p.add(btn, BorderLayout.EAST);
@@ -99,11 +106,11 @@ public class ReceiveBookDialog extends MyDialog {
 			btn.addActionListener(e -> publishHouseDialog.show());
 			publishHouseDialog.addWindowListener(new WindowAdapter() {
 				public void windowClosed(WindowEvent e) {
-					publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+					publishHouseComboBox.setItems(new Vector(HibernateUtil.loadAllData(PublishHouse.class)));
 				}
 
 				public void windowClosing(WindowEvent e) {
-					publishHouseComboBox.setItems(new Vector(HibernateSessionFactoryUtil.loadAllData(PublishHouse.class)));
+					publishHouseComboBox.setItems(new Vector(HibernateUtil.loadAllData(PublishHouse.class)));
 				}
 			});
 			p.add(btn, BorderLayout.EAST);
@@ -125,8 +132,15 @@ public class ReceiveBookDialog extends MyDialog {
 
 	
 	@Override
-	protected void getInfo()
+	protected void getInfo() throws ParseException
 	{
+		try {
+			System.out.println(isbnTextField.formatter.stringToValue(isbnTextField.getText()));
+		} catch (ParseException e) {
+			e.addSuppressed(new Exception("invalid ISBN"));
+			throw e;
+		}
+		
 		Book book = (Book)this.object;
 		book.ISBN = isbnTextField.getText();
 		book.name = nameTextField.getText().trim();
@@ -134,6 +148,8 @@ public class ReceiveBookDialog extends MyDialog {
 		book.author = (Author) authorComboBox.getSelectedItem();
 		book.publishHouse = (PublishHouse) publishHouseComboBox.getSelectedItem();
 		book.releaseYear = releaseYearSpinner.getShort();
+		
+		System.err.println(book.releaseYear);
 		
 //		Utils.print(book);
 	}
@@ -147,7 +163,7 @@ public class ReceiveBookDialog extends MyDialog {
 		bbkComboBox.setSelectedItem(book.bbk);
 		authorComboBox.setSelectedItem(book.author);
 		publishHouseComboBox.setSelectedItem(book.publishHouse);
-		releaseYearSpinner.setValue(book.releaseYear == null ? (short)0 : book.releaseYear);
+		releaseYearSpinner.setValue(book.releaseYear);
 	}
 
 	@Override

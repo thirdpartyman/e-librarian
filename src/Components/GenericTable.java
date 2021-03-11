@@ -52,11 +52,7 @@ public class GenericTable<T> extends JTable {
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-					var list = getSelectedItems();
-					model.items.removeAll(list);
-					for (var item : list)
-						session.delete(item);
-					updateUI();
+					removeItems(getSelectedItems());
 		        }
 			}
 		});
@@ -67,6 +63,14 @@ public class GenericTable<T> extends JTable {
 				getSelectionModel().clearSelection();
 			}
 		});
+	}
+	
+	public void removeItems(List<T> items)
+	{
+		model.items.removeAll(items);
+		for (var item : items)
+			session.delete(item);
+		updateUI();
 	}
 	
 	public void saveChanges() {

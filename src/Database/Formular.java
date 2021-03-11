@@ -1,8 +1,7 @@
 package Database;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
@@ -30,10 +31,12 @@ public class Formular implements Serializable {
 	Book book;
 
 //	@Id
+	@Temporal(TemporalType.DATE)
 	@Column(name = "issue_date", nullable = false)
 	Date issueDate;
 
 ////	@Id
+	@Temporal(TemporalType.DATE)
 	@Column(name = "return_date")
 	Date returnDate;
 

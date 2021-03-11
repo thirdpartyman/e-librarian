@@ -8,16 +8,18 @@ import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.util.Vector;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+
+import org.hibernate.Transaction;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
 import ComboBox.GenericComboBox;
 import Components.MyButton;
 import Components.MyDialog;
-import Components.MyGroupBox;
 import Components.MySpinner;
 import Components.MyTextField;
 import Database.Author;
@@ -67,10 +69,6 @@ public class ReceiveBookDialog extends MyDialog {
 
 	private void createLayout() {
 
-		MyGroupBox panel = new MyGroupBox();
-		Border border = panel.getBorder();
-		Border margin = new EmptyBorder(10, 10, 10, 10);
-		panel.setBorder(new CompoundBorder(margin, border));
 
 		// список полей ввода с подписями
 		panel.addComponentWithLabel("ISBN", isbnTextField);
@@ -121,8 +119,6 @@ public class ReceiveBookDialog extends MyDialog {
 		
 		panel.addComponentWithLabel("Год выпуска", releaseYearSpinner);
 
-		this.getContentPane().add(panel);
-
 		pack();
 		Dimension size = getSize();
 		size.width = (int) (size.height * 1.618);
@@ -169,6 +165,26 @@ public class ReceiveBookDialog extends MyDialog {
 	@Override
 	public void show() {
 		super.show(Book.class);
+		old_isbn = null;
 	}
+	
+	public void show(Book book) {
+		super.show(book);
+		old_isbn = ((Book)book).ISBN;
+	}
+	String old_isbn = null;
 
+	@Override
+	protected void update(Object object)
+	{
+		Book book = (Book) object;
+		var session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		if (old_isbn != null && !old_isbn.equals(book.ISBN))
+			session.delete(session.get(Book.class, old_isbn));
+		session.saveOrUpdate(object);
+		transaction.commit();
+		session.close();
+	}
+	
 }

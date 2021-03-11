@@ -26,6 +26,7 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -35,13 +36,22 @@ import Database.HibernateUtil;
 public abstract class MyDialog extends JDialog {
 
 	protected JToolBar statusBar = new JToolBar();
+	protected MyGroupBox panel = new MyGroupBox();
 
 	private void init() {
 		setModalityType(ModalityType.MODELESS);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setLocationRelativeTo(getParent());
 		setEscapeCloseOperation(this);
+		
 		createStatusBar();
+		getContentPane().add(statusBar, BorderLayout.PAGE_END);
+		
+		getContentPane().add(panel);
+		Border border = panel.getBorder();
+		Border margin = new EmptyBorder(10, 10, 10, 10);
+		panel.setBorder(new CompoundBorder(margin, border));
+		
 		getContentPane().setBackground( Color.white );
 	}
 
@@ -134,7 +144,6 @@ public abstract class MyDialog extends JDialog {
 		Border border = BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(150, 150, 150));
 		Border margin = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		statusBar.setBorder(new CompoundBorder(border, margin));
-		getContentPane().add(statusBar, BorderLayout.PAGE_END);
 		statusBar.add(Box.createHorizontalGlue());
 		statusBar.add(new SaveAction()).setFocusPainted(false);
 		statusBar.addSeparator(Utils.weight);
@@ -159,7 +168,7 @@ public abstract class MyDialog extends JDialog {
 	protected String saveTitle;
 	protected String updateTitle;
 
-	public <T> void show(Class<T> type) {
+	protected <T> void show(Class<T> type) {
 		this.setTitle(saveTitle);
 		showflag = true;
 		try {
@@ -192,18 +201,33 @@ public abstract class MyDialog extends JDialog {
 	public abstract void show();
 
 	
+	protected void insert(Object object)
+	{
+		HibernateUtil.insert(object);
+		if (onInsert != null) onInsert.run();
+	}
+	
+	protected void update(Object object)
+	{
+		HibernateUtil.update(object);
+		if (onUpdate != null) onUpdate.run();
+	}
+	
+	protected Runnable onInsert = null;
+	protected Runnable onUpdate = null;
+	
 	private boolean save()
 	{
 		try {
 			getInfo();
 
 			if (showflag) {
-				HibernateUtil.insert(object);
+				insert(object);
 
 				showflag = false;
 				setTitle(updateTitle);
 			} else {
-				HibernateUtil.update(object);
+				update(object);
 			}
 			
 		} catch (ConstraintViolationException e) {

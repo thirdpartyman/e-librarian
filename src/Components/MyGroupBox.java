@@ -14,11 +14,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 public class MyGroupBox extends JPanel {
-
-	void init()
-	{
-		
-	}
 	
 	public MyGroupBox() {
 		super(new GridBagLayout());
@@ -55,4 +50,5 @@ public class MyGroupBox extends JPanel {
 		gridBagConstraint.weightx = 1.0f;
 		this.add(comp, gridBagConstraint);
 	}
+
 }

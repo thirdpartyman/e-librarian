@@ -41,26 +41,15 @@ public class AuthorDialog extends MyDialog {
 	}
 
 	
-	private void createLayout() {
-		
-		MyGroupBox panel = new MyGroupBox();
-//		Border border = panel.getBorder();
-		Border margin = new EmptyBorder(10, 10, 10, 10);
-//		panel.setBorder(new CompoundBorder(margin, border));
-		panel.setBorder(margin);
-		
+	private void createLayout() {		
 		// список полей ввода с подписями
 		panel.addComponentWithLabel("ФИО", nameTextField);
 		panel.addComponentWithLabel("Год рождения", birthYearSpinner);
 
-		this.getContentPane().add(panel);
-		
-		
 		pack();
 		Dimension size = getSize();
 		size.width = (int)(size.height * 2.414);
 		setMinimumSize(size);//минимальный размер не может быть меньше рассчитанного при создании диалога
-
 	}
 	
 	

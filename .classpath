@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="lib/ojdbc/oraclepki.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc/osdt_cert.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc/osdt_core.jar"/>
+	<classpathentry kind="lib" path="lib/components/jdatepicker-2.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

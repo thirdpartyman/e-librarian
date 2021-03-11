@@ -18,15 +18,15 @@ public class Reader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "library_card_number")
-	Long libraryCardNumber;
+	public Long libraryCardNumber;
     
 	@Column(nullable = false)
-	String FIO;
+	public String FIO;
 	@Column(nullable = false)
-	String adress;
+	public String adress;
     @Column(nullable = false, unique = true)
-	String phone;
+    public String phone;
 	
-	@Column (name = "passport_number", nullable = false)
-	int passportNumber;//6 цифр
+	@Column (nullable = false, unique = true)
+	public String passport;
 }

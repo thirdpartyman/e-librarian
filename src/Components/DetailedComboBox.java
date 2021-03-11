@@ -26,11 +26,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 
-class DetailedComboBox extends JComboBox
+public class DetailedComboBox extends JComboBox
 {
   public static enum Alignment {LEFT, RIGHT}
 
-  private List<List<? extends Object>> tableData;
+  private List<Object> tableData;
   private String[] columnNames;
   private int[] columnWidths;
   private int displayColumn;
@@ -66,25 +66,31 @@ class DetailedComboBox extends JComboBox
    * The combobox is also populated with the column data from the
    * column defined by <code>displayColumn</code>.
    */
-  public void setTableData(List<List<? extends Object>> tableData)
+  public void setTableData(List<Object> tableData)
   {
     this.tableData = (tableData == null ?
-        new ArrayList<List<? extends Object>>() : tableData);
+        new ArrayList<Object>() : tableData);
 
     // even though the incoming data is for the table, we must also
     // populate the combobox's data, so first clear the previous list.
     removeAllItems();
 
     // then load the combobox with data from the appropriate column
-    Iterator<List<? extends Object>> iter = this.tableData.iterator();
+    Iterator<Object> iter = this.tableData.iterator();
     while (iter.hasNext())
     {
-      List<? extends Object> rowData = iter.next();
-      addItem(rowData.get(displayColumn));
+    	Object rowData = iter.next();
+    	var row = rowData.getClass().getDeclaredFields();
+    	try {
+			addItem(row[displayColumn].get(rowData));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
   }
 
-  public List<? extends Object> getSelectedRow()
+  public Object getSelectedRow()
   {
     return tableData.get(getSelectedIndex());
   }
@@ -278,8 +284,14 @@ class DetailedComboBox extends JComboBox
       {
         return "";
       }
-
-      return tableData.get(row).get(col);
+      
+      try {
+		return tableData.get(row).getClass().getDeclaredFields()[displayColumn].get(tableData.get(row));
+	} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "";
+	}
     }
 
     /**

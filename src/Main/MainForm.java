@@ -19,7 +19,8 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import Components.MyButton;
-import Forms.AuthorDialog;
+import Forms.GetBookDialog;
+import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
 import Views.Catalog;
 
@@ -33,7 +34,8 @@ public class MainForm extends JFrame {
 	
 	Catalog catalogView = new Catalog(this);
 	ReceiveBookDialog receiveBookDialog = new ReceiveBookDialog(this);
-	AuthorDialog authorDialog = new AuthorDialog(this);
+	GetBookDialog getBookDialog = new GetBookDialog(this);
+	ReaderDialog newReaderDialog = new ReaderDialog(this);
 
 	private void createMenu() throws IOException {
 		
@@ -59,7 +61,7 @@ public class MainForm extends JFrame {
 		
 		btn = (MyButton) toolBar.add(new MyButton(multiLine.apply("Выдача книг"), new ImageIcon("icons\\book (3).png")));
 		btn.setMaximumSize(sz);
-		btn.addActionListener(e -> authorDialog.show());
+		btn.addActionListener(e -> getBookDialog.show());
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar.add(new JToggleButton("Каталог", new ImageIcon("icons\\001-books.png"))); 
 		views.add(tbtn);
@@ -73,6 +75,10 @@ public class MainForm extends JFrame {
 		views.add(tbtn);
 		panes.add(new JButton("Читатели"), views.get(views.size() - 1).getText()); 
 		toolBar.addSeparator(weight);
+		btn = (MyButton)toolBar.add(new MyButton(multiLine.apply("Новый читатель"), new ImageIcon("icons\\add-user.png")));
+		btn.setMaximumSize(sz);
+		btn.addActionListener(e -> newReaderDialog.show());
+		toolBar.addSeparator(weight);
 		btn = (MyButton)toolBar.add(new MyButton(multiLine.apply("Привоз книг"), new ImageIcon("icons\\book (4).png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> receiveBookDialog.show());
@@ -80,7 +86,7 @@ public class MainForm extends JFrame {
 		toolBar.add(Box.createHorizontalGlue());
 		btn = (MyButton) toolBar.add(new MyButton("Настройки", new ImageIcon("icons\\manual.png")));
 		btn.addActionListener(e -> receiveBookDialog.show());
-		
+				
 		
 		for (JToggleButton button : views) {
 			button.setMaximumSize(sz);

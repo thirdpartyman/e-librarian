@@ -178,7 +178,7 @@ public abstract class MyDialog extends JDialog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		setInfo();
+		setInfo();
 		super.show();
 	}
 

@@ -109,4 +109,9 @@ public class SearchPanel extends JPanel {
 	{
 		searchTextBox.setHint(hint);
 	}
+	
+	public void enableAdvancedSearch(boolean flag)
+	{
+		advancedSearchToggle.setVisible(flag);
+	}
 }

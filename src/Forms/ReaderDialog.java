@@ -2,6 +2,7 @@ package Forms;
 
 import java.awt.Dimension;
 import java.awt.Window;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
@@ -52,29 +53,49 @@ public class ReaderDialog extends MyDialog {
 			var comps = panel.getComponents();
 			comps[0].setVisible(true);
 			comps[1].setVisible(true);
+			pack();
 		};
 	}
 
 	
 	private void createLayout() {		
 		// список полей ввода с подписями
-		panel.addComponentWithLabel("Номер читательского билета", libraryCardNumberSpinner);
+		panel.addComponentWithLabel(Utils.makeMultiLine("Номер читательского билета"), libraryCardNumberSpinner);
 		panel.addComponentWithLabel("ФИО", fioField);
 		panel.addComponentWithLabel("Адрес", adressField);
 		panel.addComponentWithLabel("Телефон", phoneField);
 		panel.addComponentWithLabel("Номер паспорта", passportField);
 
 		pack();
-		Dimension size = getSize();
-		size.width = (int)(size.height * 1.618);
-		setSize(size);
 		setResizable(false);
 	}
 	
+	@Override
+	public void pack()
+	{
+		super.pack();
+		Dimension size = getSize();
+		size.width = (int)(size.height * 1.618);
+		setSize(size);
+	}
 
 	@Override
-	protected void getInfo()
+	protected void getInfo() throws ParseException
 	{
+		try {
+			System.out.println(phoneField.formatter.stringToValue(phoneField.getText()));
+		} catch (ParseException e) {
+			e.addSuppressed(new Exception("invalid phone"));
+			throw e;
+		}
+		
+		try {
+			System.out.println(passportField.formatter.stringToValue(passportField.getText()));
+		} catch (ParseException e) {
+			e.addSuppressed(new Exception("invalid passport"));
+			throw e;
+		}
+		
 		Reader reader = (Reader)this.object;
 //		reader.libraryCardNumber = libraryCardNumberSpinner.getValue();
 		reader.FIO = fioField.getText().trim();
@@ -104,6 +125,7 @@ public class ReaderDialog extends MyDialog {
 		var comps = panel.getComponents();
 		comps[0].setVisible(false);
 		comps[1].setVisible(false);
+		pack();
 	}
 
 }

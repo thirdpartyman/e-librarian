@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,10 +18,12 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import Components.MyButton;
+import Components.Utils;
 import Forms.GetBookDialog;
 import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
 import Views.Catalog;
+import Views.Readers;
 
 public class MainForm extends JFrame {
 
@@ -33,6 +34,8 @@ public class MainForm extends JFrame {
 	
 	
 	Catalog catalogView = new Catalog(this);
+	Readers readersView = new Readers(this);
+	
 	ReceiveBookDialog receiveBookDialog = new ReceiveBookDialog(this);
 	GetBookDialog getBookDialog = new GetBookDialog(this);
 	ReaderDialog newReaderDialog = new ReaderDialog(this);
@@ -54,12 +57,12 @@ public class MainForm extends JFrame {
 		Dimension weight = new Dimension(5, 5);	
 		Dimension sz = new Dimension(100, 150);
 		
-		Function<String, String> multiLine = (text) -> "<html>" + text.replaceAll(" ", "<br>") + "</html>";
+//		Function<String, String> multiLine = (text) -> "<html>" + text.replaceAll(" ", "<br>") + "</html>";
 
 		MyButton btn = null;
 		JToggleButton tbtn = null;
 		
-		btn = (MyButton) toolBar.add(new MyButton(multiLine.apply("Выдача книг"), new ImageIcon("icons\\book (3).png")));
+		btn = (MyButton) toolBar.add(new MyButton(Utils.makeMultiLine("Выдача книг"), new ImageIcon("icons\\book (3).png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> getBookDialog.show());
 		toolBar.addSeparator(weight);
@@ -67,19 +70,19 @@ public class MainForm extends JFrame {
 		views.add(tbtn);
 		panes.add(catalogView, tbtn.getText()); 
 		toolBar.addSeparator(weight);
-		tbtn = (JToggleButton) toolBar.add(new JToggleButton(multiLine.apply("История выдач"), new ImageIcon("icons\\books (1).png")));
+		tbtn = (JToggleButton) toolBar.add(new JToggleButton(Utils.makeMultiLine("История выдач"), new ImageIcon("icons\\books (1).png")));
 		views.add(tbtn);
 		panes.add(new JButton("История выдач"), tbtn.getText()); 
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar.add(new JToggleButton("Читатели", new ImageIcon("icons\\driving-license.png")));
 		views.add(tbtn);
-		panes.add(new JButton("Читатели"), views.get(views.size() - 1).getText()); 
+		panes.add(readersView, tbtn.getText()); 
 		toolBar.addSeparator(weight);
-		btn = (MyButton)toolBar.add(new MyButton(multiLine.apply("Новый читатель"), new ImageIcon("icons\\add-user.png")));
+		btn = (MyButton)toolBar.add(new MyButton(Utils.makeMultiLine("Новый читатель"), new ImageIcon("icons\\add-user.png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> newReaderDialog.show());
 		toolBar.addSeparator(weight);
-		btn = (MyButton)toolBar.add(new MyButton(multiLine.apply("Привоз книг"), new ImageIcon("icons\\book (4).png")));
+		btn = (MyButton)toolBar.add(new MyButton(Utils.makeMultiLine("Привоз книг"), new ImageIcon("icons\\book (4).png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> receiveBookDialog.show());
 		toolBar.addSeparator(weight);
@@ -106,40 +109,11 @@ public class MainForm extends JFrame {
 			});
 
 		}
-
-		
-//		JPanel panel = new JPanel();
-//		panel.setLayout(new FlowLayout());
-//
-//		Consumer<File> listFilesForFolder = (folder) -> {
-//			for (final File fileEntry : folder.listFiles()) {
-//				if (fileEntry.isDirectory()) {
-////		            listFilesForFolder.accept(fileEntry);
-//				} else {
-//					BufferedImage img = null;
-//					try {
-//						img = ImageIO.read(new File("icons\\" + fileEntry.getName()));
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					ImagePanel cmp = (ImagePanel)panel.add(new ImagePanel(img));
-//					cmp.setToolTipText(fileEntry.getName());
-//					cmp.setPreferredSize(new Dimension(100, 100));
-//					System.out.println(fileEntry.getName());
-//				}
-//			}
-//		};
-//
-//		final File folder = new File("icons");
-//		listFilesForFolder.accept(folder);
-//
-//		add(panel);
 	}
 
 
 	public MainForm() throws IOException {
-		super("Библиотека");
+		super("Электронный Библиотекарь");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createMenu();
 		// Выводим окно на экран

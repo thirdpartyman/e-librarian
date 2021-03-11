@@ -231,7 +231,7 @@ public class Catalog extends Pane {
 	    });		
 		
 		
-		table.setItems(HibernateUtil.loadAllData(Book.class));
+		table.reload();
 
 		return table;
 	}

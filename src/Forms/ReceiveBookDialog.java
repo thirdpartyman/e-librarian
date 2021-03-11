@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import org.hibernate.Transaction;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
-import ComboBox.GenericComboBox;
 import Components.MyButton;
 import Components.MyDialog;
 import Components.MySpinner;
@@ -27,6 +26,7 @@ import Database.BBK;
 import Database.Book;
 import Database.HibernateUtil;
 import Database.PublishHouse;
+import Generic.GenericComboBox;
 
 public class ReceiveBookDialog extends MyDialog {
 

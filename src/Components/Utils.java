@@ -24,4 +24,9 @@ public class Utils {
 		}
 
 	}
+	
+	public static String makeMultiLine(String text)
+	{
+		return "<html>" + text.replaceAll(" ", "<br>") + "</html>";
+	}
 }

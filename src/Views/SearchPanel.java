@@ -1,11 +1,9 @@
-package Components;
+package Views;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
@@ -17,13 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
+import Components.HintTextField;
+import Components.MyButton;
+import Components.WrapLayout;
+
 public class SearchPanel extends JPanel {
 
 	JPanel simpleSearchBox = new JPanel();
 	HintTextField searchTextBox = new HintTextField("Поиск");
 	JToggleButton advancedSearchToggle = new JToggleButton();
-	WrapLayout lay = new WrapLayout(FlowLayout.LEFT, 0, 0);
-	JPanel advancedSearchPanel = new JPanel(lay);
+//	WrapLayout lay = new WrapLayout(FlowLayout.LEFT, 0, 0);
+	JPanel advancedSearchPanel = new JPanel(new WrapLayout(FlowLayout.LEFT, 0, 0));
 	MyButton searchButton = new MyButton("Найти");
 
 	public SearchPanel() {

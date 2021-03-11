@@ -1,4 +1,4 @@
-package Components;
+package Generic;
 
 import java.awt.Dimension;
 import java.awt.Point;

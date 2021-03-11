@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import ComboBox.Filterable;
+import Generic.Filterable;
 
 @Entity
 @Table (name = "authors", uniqueConstraints=@UniqueConstraint(columnNames = {"name", "birth_year"})) 

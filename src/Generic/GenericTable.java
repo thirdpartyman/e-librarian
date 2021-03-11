@@ -1,4 +1,4 @@
-package Components;
+package Generic;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -18,7 +18,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import ComboBox.GenericComboBox;
 import Database.Book;
 import Database.HibernateUtil;
 

@@ -33,11 +33,8 @@ import javax.swing.table.JTableHeader;
 
 import org.hibernate.Session;
 
-import ComboBox.GenericComboBox;
-import Components.GenericTable;
 import Components.MySpinner;
 import Components.MyTextField;
-import Components.SearchPanel;
 import Components.SpinnerEditor;
 import Database.Author;
 import Database.BBK;
@@ -45,6 +42,8 @@ import Database.Book;
 import Database.HibernateUtil;
 import Database.PublishHouse;
 import Forms.ReceiveBookDialog;
+import Generic.GenericComboBox;
+import Generic.GenericTable;
 import Main.MainForm;
 
 public class Catalog extends Pane {

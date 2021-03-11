@@ -13,8 +13,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
-import ComboBox.Filterable;
-import ComboBox.GenericComboBox;
+import Generic.Filterable;
+import Generic.GenericComboBox;
 
 public class MySpinner extends JSpinner {
 

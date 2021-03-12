@@ -1,4 +1,6 @@
 package Main;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,24 +12,22 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import Database.BBK;
-import Database.HibernateUtil;
 
 
 public class Program {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		System.out.println("Hello, world!");
-		
-		//открываем соединение
-//		Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-//		if (session == null) System.exit(0);
-//		System.out.println("Connection opened");
-//		
-//		resetBBKtable(session);
-//		
-//		session.close();
-		
-		
-		new MainForm().show();
+			
+		SplashScreen splash = new SplashScreen();
+    	MainForm form = new MainForm();
+
+    	form.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowActivated(WindowEvent e) {
+	        	splash.dispatchEvent(new WindowEvent(e.getWindow(), WindowEvent.WINDOW_CLOSING));
+	        }
+	    });
+    	form.show();
 	}
 	
 	

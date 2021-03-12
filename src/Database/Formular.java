@@ -17,31 +17,31 @@ import javax.persistence.TemporalType;
 @Table(name = "formulars")
 public class Formular implements Serializable {
 
-	@Id
-	private int id;
+//	@Id
+//	private int id;
 	
-//	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Id
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reader_card_number")
-	Reader reader;
+	public Reader reader;
 
-//	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Id
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ISBN")
-	Book book;
+	public Book book;
 
-//	@Id
+	@Id
 	@Temporal(TemporalType.DATE)
 	@Column(name = "issue_date", nullable = false)
-	Date issueDate;
-
-////	@Id
-	@Temporal(TemporalType.DATE)
-	@Column(name = "return_date")
-	Date returnDate;
+	public Date issueDate;
 
 //	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "return_date")
+	public Date returnDate;
+
+	@Id
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "librarian_id")
-	Librarian librarian;
+	public Librarian librarian;
 }

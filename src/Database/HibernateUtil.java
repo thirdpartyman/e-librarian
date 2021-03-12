@@ -107,9 +107,18 @@ public class HibernateUtil {
 		Transaction transaction = session.beginTransaction();
 		for (T item : list)
 		{
-			item = (T) session.merge(item);
+//			item = (T) session.merge(item);
 			session.update(item);
 		}
+		transaction.commit();
+		session.close();
+	}
+	
+	public static <T> void insert(List<T> list) {
+		var session = getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		for (T item : list)
+			session.saveOrUpdate(item);
 		transaction.commit();
 		session.close();
 	}

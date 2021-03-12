@@ -239,13 +239,19 @@ public abstract class MyDialog extends JDialog {
 		{
 			JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
 					e.getEntityName() + '.' + e.getPropertyName() + " is null", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			return false;
 		}catch (PersistenceException e) {
 			JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
 					e.toString(), JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+
 			return false;
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(MyDialog.this, ((Exception)e.getSuppressed()[0]).getMessage(),
 					e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+
 			return false;
 		}
 

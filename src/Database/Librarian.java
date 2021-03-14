@@ -22,14 +22,14 @@ public class Librarian implements Serializable {
 	Long id;
     
     @Column(nullable = false)
-    String adress;
+    public String adress;
     
     @Column(nullable = false, unique = true)
-	String phone;
+    public String phone;
     
     @Column(nullable = false)
-	String FIO;
+    public String FIO;
     
     @Column(nullable = false)
-	String password;//хеш пароля
+    public String password;//хеш пароля
 }

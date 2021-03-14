@@ -3,10 +3,11 @@ package Components;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 import org.hibernate.Session;
@@ -36,6 +37,18 @@ public class Utils {
 
 	public static String makeMultiLine(String text) {
 		return "<html>" + text.replaceAll(" ", "<br>") + "</html>";
+	}
+
+	public static String hash(char[] chars) {
+		MessageDigest d = null;
+		try {
+			d = MessageDigest.getInstance("SHA-1");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		d.reset();
+		d.update(new String(chars).getBytes());
+		return new String(d.digest());
 	}
 
 	public static void reloadBBKtable() {

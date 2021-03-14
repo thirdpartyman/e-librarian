@@ -51,7 +51,6 @@ public class GenericComboBox<T> extends JComboBox<T> {
 		this.getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
 				super.focusLost(e);
-				System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				if (filter.isEmpty())
 					return;
 				model.filter(filter);// если не был выбран элемент, выбираем его по введенному фильтру

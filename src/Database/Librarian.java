@@ -11,11 +11,13 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Generic.Filterable;
+
 @Entity
 @Table (name = "librarians")
 @Transactional
 @JsonAutoDetect
-public class Librarian implements Serializable {
+public class Librarian implements Serializable, Comparable<Librarian>, Filterable {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +34,20 @@ public class Librarian implements Serializable {
     
     @Column(nullable = false)
     public String password;//хеш пароля
+    
+    
+	@Override
+	public int compareTo(Librarian o) {
+		return FIO.compareTo(o.FIO);
+	}
+
+	@Override
+	public boolean tryfilter(Object obj) {
+		return FIO.contains((String)obj);
+	}
+
+	@Override
+	public Object getFilterableField() {
+		return FIO;
+	}
 }

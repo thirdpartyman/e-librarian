@@ -25,10 +25,12 @@ import Components.MyButton;
 import Components.Utils;
 import Database.HibernateUtil;
 import Database.Librarian;
+import Forms.AuthorizationDialog;
 import Forms.GetBookDialog;
 import Forms.LibrarianDialog;
 import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
+import Settings.ApplicationSettings;
 import Views.Catalog;
 import Views.Readers;
 
@@ -130,7 +132,7 @@ public class MainForm extends JFrame {
 		setIconImage(icon.getImage());
 	}
 
-	//запуск авторизации при запуске программы и регистрации библиотекаря(если в бд нет ни одной учетной записи)
+	// запуск авторизации при запуске программы и регистрации библиотекаря(если в бд нет ни одной учетной записи)
 	@Override
 	public void show() {
 		super.show();
@@ -146,6 +148,12 @@ public class MainForm extends JFrame {
 			});
 			librarianDialog.show();
 		}
+
+		AuthorizationDialog authorizationDialog = new AuthorizationDialog();
+		do
+		{
+			ApplicationSettings.authorizedLibrarian = authorizationDialog.show();
+		}while(ApplicationSettings.authorizedLibrarian == null);
 	}
 
 }

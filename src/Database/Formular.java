@@ -1,4 +1,5 @@
 package Database;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import Generic.Filterable;
 
 @Entity
 @Table(name = "formulars")
@@ -19,7 +21,7 @@ public class Formular implements Serializable {
 
 //	@Id
 //	private int id;
-	
+
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reader_card_number")

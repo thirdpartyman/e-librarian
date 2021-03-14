@@ -43,7 +43,7 @@ public class PublishHouse implements Serializable, Comparable<PublishHouse>, Fil
 
 	@Override
 	public boolean tryfilter(Object obj) {
-		return name.startsWith((String)obj);
+		return name.contains((String)obj);
 	}
 
 	@Override

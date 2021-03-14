@@ -1,4 +1,6 @@
 package Database;
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +13,13 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Generic.Filterable;
+
 @Entity
 @Table (name = "books")
 @Transactional
 @JsonAutoDetect
-public class Book {
+public class Book implements Serializable, Comparable<Book>, Filterable{
     @Id
     public String ISBN;
     
@@ -35,4 +39,20 @@ public class Book {
 	
     @Column(name = "release_year")
 	public Short releaseYear;
+    
+    
+	@Override
+	public int compareTo(Book o) {
+		return name.compareTo(o.name);
+	}
+
+	@Override
+	public boolean tryfilter(Object obj) {
+		return name.contains((String)obj);
+	}
+
+	@Override
+	public Object getFilterableField() {
+		return name;
+	}
 }

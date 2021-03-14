@@ -1,4 +1,6 @@
 package Database;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,7 +15,7 @@ import Generic.Filterable;
 @Table (name = "bbk")
 @Transactional
 @JsonAutoDetect
-public class BBK implements Comparable<BBK>, Filterable {
+public class BBK implements Serializable, Comparable<BBK>, Filterable{
 	public BBK() {}
     public BBK(String index, String text) {
     	this.index = index;

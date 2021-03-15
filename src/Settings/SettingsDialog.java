@@ -17,12 +17,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.table.JTableHeader;
 
 import Components.MyDialog;
+import Components.MyScrollPane;
 import Components.Utils;
 import Database.Librarian;
 import Forms.AuthorizationDialog;
@@ -59,7 +60,7 @@ public class SettingsDialog extends MyDialog {
 		createAccountsTab();
 
 		super.saveButton.setText("Применить");
-		super.saveAndUpdateButton.setText("OK");
+		super.saveAndUpdateButton.setText("    OK     ");
 
 		pack();
 	}
@@ -114,16 +115,19 @@ public class SettingsDialog extends MyDialog {
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		toolBar.add(new AbstractAction("Добавить учётную запись") {
+		var btn = toolBar.add(new AbstractAction("Добавить учётную запись", new ImageIcon("icons\\plus (2).png")) {
 			public void actionPerformed(ActionEvent event) {
 				accountDialog.show();
 			}
 		});
+		btn.setHideActionText(false);
+		btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btn.setVerticalTextPosition(SwingConstants.CENTER);
 		toolBar.add(Box.createHorizontalGlue());
 		
 		
 		accountsPanel.setLayout(new BoxLayout(accountsPanel, BoxLayout.Y_AXIS));
-		((JScrollPane)accountsPanel.add(new JScrollPane(table))).getViewport().setBackground(Color.white);
+		accountsPanel.add(new MyScrollPane(table));
 		accountsPanel.add(toolBar);
 	}
 

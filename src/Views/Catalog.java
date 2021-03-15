@@ -244,8 +244,11 @@ public class Catalog extends Pane {
 		
 		tableMenu.addSaveChangesButtonListener(e -> table.saveChanges());
 		
+		tableMenu.enableEdit.setSelected(Settings.ApplicationSettings.Configuration.enableEditCatalogView);
 		tableMenu.addEnableEditListener(e -> {
 			boolean value = e.getStateChange() == ItemEvent.SELECTED;
+			Settings.ApplicationSettings.Configuration.enableEditCatalogView = value;
+			Settings.ApplicationSettings.save();
 			for(int index = 2; index < 2 + 5; index++)
 				table.setEditable(index, value);
 		});

@@ -63,16 +63,8 @@ public class GetBookDialog extends MyDialog {
 		setIconImage(icon.getImage());
 	
 		statusBar.remove(1);
-		
-//		((JTextField)librarianComboBox.getEditor().getEditorComponent()).setDisabledTextColor(Color.black);
-//		((JTextField)librarianComboBox.getEditor().getEditorComponent()).dis(Color.black);
-//		librarianComboBox.setEnabled(false);
-//		librarianComboBox.setForeground(Color.black);
-		UIManager.put("ComboBox.disabledForeground", Color.black);
-		
 		librarianComboBox.setEnabled(false);
-//        ((JTextField) librarianComboBox.getEditor().getEditorComponent()).setDisabledTextColor(Color.red);
-//        ((JTextField) librarianComboBox.getEditor().getEditorComponent()).setBackground(Color.green);
+		dateTimePicker.setEnabled(false);
 	}
 
 	private void createLayout() {

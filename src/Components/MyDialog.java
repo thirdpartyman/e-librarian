@@ -63,6 +63,13 @@ public abstract class MyDialog extends JDialog {
 		getContentPane().setBackground( Color.white );
 	}
 	
+	@Override
+	public void pack()
+	{
+		super.pack();
+		setLocationRelativeTo(getParent());
+	}
+	
 	public Component add(Component comp)
 	{
 		GridBagConstraints gridBagConstraint = new GridBagConstraints();

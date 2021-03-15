@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -16,12 +19,15 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.table.JTableHeader;
 
+import Components.MyCheckBox;
 import Components.MyDialog;
 import Components.MyScrollPane;
 import Components.Utils;
@@ -66,8 +72,44 @@ public class SettingsDialog extends MyDialog {
 	}
 
 	private void createSettingsTab() {
+		settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+		
+		
+		JCheckBox checkBox = null;
+		
+		checkBox = new MyCheckBox("Сохранять ширину столбцов", 
+				Settings.ApplicationSettings.Configuration.saveTablesColumns);
+		checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+            	Settings.ApplicationSettings.Configuration.saveTablesColumns = e.getStateChange() == ItemEvent.SELECTED;
+            }
+        });
+		settingsPanel.add(checkBox);
+		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
 
+		checkBox = new MyCheckBox("Показывать подписи кнопок главного меню", 
+				Settings.ApplicationSettings.Configuration.showMainMenuButtonsTitles);
+		checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+            	Settings.ApplicationSettings.Configuration.showMainMenuButtonsTitles = e.getStateChange() == ItemEvent.SELECTED;
+            }
+        });
+		settingsPanel.add(checkBox);
+		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
+
+		checkBox = new MyCheckBox("Показывать подписи кнопок меню таблиц", 
+				Settings.ApplicationSettings.Configuration.showTablesMenuButtonsTitles);
+		checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+            	Settings.ApplicationSettings.Configuration.showTablesMenuButtonsTitles = e.getStateChange() == ItemEvent.SELECTED;
+            }
+        });
+		settingsPanel.add(checkBox);
+		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
+		settingsPanel.add(Box.createVerticalGlue());
 	}
+
+	
 
 	GenericTable table = new GenericTable<Librarian>(Librarian.class,
 			new String[] { "ФИО", "Телефон" });
@@ -147,12 +189,14 @@ public class SettingsDialog extends MyDialog {
 	protected void insert(Object object)
 	{
 		table.saveChanges();
+		Settings.ApplicationSettings.save();
 	}
 	
 	@Override
 	protected void update(Object object)
 	{
 		table.saveChanges();
+		Settings.ApplicationSettings.save();
 	}
 
 	@Override

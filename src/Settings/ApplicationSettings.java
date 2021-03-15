@@ -49,7 +49,7 @@ public class ApplicationSettings {
 	}
 
 	@ConfigSerializable
-	private static class MyConfiguration {
+	public static class MyConfiguration {
 		@Comment("Разрешить редактирование таблицы каталога книг")
 		public boolean enableEditCatalogView = false;
 		@Comment("Разрешить редактирование таблицы читателей")

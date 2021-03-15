@@ -36,7 +36,7 @@ public class ViewMenu extends JToolBar {
 	
 	private MyButton reloadButton = new MyButton("Обновить", new ImageIcon("icons\\003-reload.png"));
 	private MyButton saveChangesButton = new MyButton("Сохранить изменения", new ImageIcon("icons\\008-upload.png"));
-	private JCheckBox enableEdit = new JCheckBox("Разрешить редактирование");
+	public JCheckBox enableEdit = new JCheckBox("Разрешить редактирование");
 	
 	private void init()
 	{

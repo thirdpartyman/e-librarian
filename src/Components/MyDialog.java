@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -231,27 +232,35 @@ public abstract class MyDialog extends JDialog {
 			}
 			
 		} catch (ConstraintViolationException e) {
-			JOptionPane.showMessageDialog(MyDialog.this, e.getSQLException(), e.getMessage(),
+			JOptionPane.showMessageDialog(MyDialog.this, e.getSQL(), e.getConstraintName(),
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		} 
+
 		catch(PropertyValueException e)
 		{
 			JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
 					e.getEntityName() + '.' + e.getPropertyName() + " is null", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 			return false;
 		}catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
-					e.toString(), JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-
+			ConstraintViolationException e1 = (ConstraintViolationException) e.getCause();
+			
+			if (e1 == null)
+			{
+				JOptionPane.showMessageDialog(MyDialog.this, e.getLocalizedMessage(),
+				e.toString(), JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				JdbcSQLIntegrityConstraintViolationException  e2 = (JdbcSQLIntegrityConstraintViolationException ) e1.getCause();
+				JOptionPane.showMessageDialog(MyDialog.this, e2.getLocalizedMessage(), e.getLocalizedMessage(),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
 			return false;
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(MyDialog.this, ((Exception)e.getSuppressed()[0]).getMessage(),
 					e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-
 			return false;
 		}
 

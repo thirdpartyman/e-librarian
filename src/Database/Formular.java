@@ -29,7 +29,7 @@ public class Formular implements Serializable {
 
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ISBN")
+	@JoinColumn(name = "book_id")
 	public Book book;
 
 	@Id

@@ -76,6 +76,7 @@ public class MainForm extends JFrame {
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar.add(new JToggleButton("Каталог", new ImageIcon("icons\\001-books.png")));
 		views.add(tbtn);
+		((JToggleButton)tbtn).setSelected(true);
 		panes.add(catalogView, tbtn.getText());
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar
@@ -87,13 +88,11 @@ public class MainForm extends JFrame {
 		views.add(tbtn);
 		panes.add(readersView, tbtn.getText());
 		toolBar.addSeparator(weight);
-		btn = (MyButton) toolBar
-				.add(new MyButton(Utils.makeMultiLine("Новый читатель"), new ImageIcon("icons\\add-user.png")));
+		btn = (MyButton) toolBar.add(new MyButton(Utils.makeMultiLine("Новый читатель"), new ImageIcon("icons\\add-user.png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> newReaderDialog.show());
 		toolBar.addSeparator(weight);
-		btn = (MyButton) toolBar
-				.add(new MyButton(Utils.makeMultiLine("Привоз книг"), new ImageIcon("icons\\book (4).png")));
+		btn = (MyButton) toolBar.add(new MyButton(Utils.makeMultiLine("Привоз книг"), new ImageIcon("icons\\book (4).png")));
 		btn.setMaximumSize(sz);
 		btn.addActionListener(e -> receiveBookDialog.show());
 		toolBar.addSeparator(weight);
@@ -149,11 +148,11 @@ public class MainForm extends JFrame {
 			librarianDialog.show();
 		}
 
-		AuthorizationDialog authorizationDialog = new AuthorizationDialog();
-		do
-		{
-			ApplicationSettings.authorizedLibrarian = authorizationDialog.show();
-		}while(ApplicationSettings.authorizedLibrarian == null);
+//		AuthorizationDialog authorizationDialog = new AuthorizationDialog();
+//		do
+//		{
+//			ApplicationSettings.authorizedLibrarian = authorizationDialog.show();
+//		}while(ApplicationSettings.authorizedLibrarian == null);
 	}
 
 }

@@ -36,8 +36,8 @@ public class GetBookDialog extends MyDialog {
 	DetailedComboBox readerComboBox = new DetailedComboBox(
 			new String[] { "Читательски билет №", "ФИО", "Телефон", "Адрес", "Номер паспорта" },
 			new int[] { 50, 100, 100, 100, 100 }, 1);
-	DetailedComboBox librarianComboBox = new DetailedComboBox(new String[] { "№", "ФИО", "Адрес", "Телефон" },
-			new int[] { 50, 100, 100, 100 }, 1);
+	DetailedComboBox librarianComboBox = new DetailedComboBox(new String[] { "ФИО", "Телефон", "Адрес" },
+			new int[] { 150, 100, 100 }, 0);
 	JDatePicker dateTimePicker = new JDatePicker();
 	List<DetailedComboBox> bookComboBoxes = new ArrayList<DetailedComboBox>();
 	JPanel booksPanel = new JPanel();
@@ -142,6 +142,7 @@ public class GetBookDialog extends MyDialog {
 	@Override
 	protected void getInfo() throws ParseException {
 		List<Formular> formulars = (List<Formular>) object;
+		formulars.clear();
 		for (var bookComboBox : bookComboBoxes)
 		{
 			Formular formular = new Formular();
@@ -192,7 +193,7 @@ public class GetBookDialog extends MyDialog {
 	protected void insert(Object object)
 	{
 		List<Formular> formulars = (List<Formular>) object;
-//		Utils.print(formulars);
+		Utils.print(formulars);
 		HibernateUtil.insert(formulars);
 	}
 

@@ -88,7 +88,7 @@ public class DetailedComboBox extends JComboBox {
 		Iterator<Object> iter = this.tableData.iterator();
 		while (iter.hasNext()) {
 			Object rowData = iter.next();
-			var row = rowData.getClass().getDeclaredFields();
+			var row = rowData.getClass().getFields();
 			try {
 				addItem((displayColumn != null) ? row[displayColumn].get(rowData) : displayString.apply(rowData));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -312,7 +312,7 @@ public class DetailedComboBox extends JComboBox {
 			}
 
 			try {
-				return tableData.get(row).getClass().getDeclaredFields()[col].get(tableData.get(row));
+				return tableData.get(row).getClass().getFields()[col].get(tableData.get(row));
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

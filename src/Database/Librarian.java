@@ -24,17 +24,24 @@ public class Librarian implements Serializable, Comparable<Librarian>, Filterabl
 	Long id;
     
     @Column(nullable = false)
-    public String adress;
-    
+    public String FIO;
+   
     @Column(nullable = false, unique = true)
     public String phone;
     
     @Column(nullable = false)
-    public String FIO;
+    public String adress;
+
     
     @Column(nullable = false)
     public String password;//хеш пароля
     
+    
+    @Override
+    public String toString()
+    {
+		return FIO;   	
+    }
     
 	@Override
 	public int compareTo(Librarian o) {

@@ -7,7 +7,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +15,10 @@ import java.util.stream.Collectors;
 import javax.persistence.Query;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
-import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import Components.MyScrollPane;
 import Components.MyTextField;
 import Database.Book;
 import Database.HibernateUtil;
@@ -49,7 +48,7 @@ public class Readers extends Pane{
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createSearchPanel());
-		add(new JScrollPane(createTable()));
+		add(new MyScrollPane(createTable()));
 		add(createViewMenu());
 	}
 

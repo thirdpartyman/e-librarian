@@ -24,7 +24,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -33,6 +32,7 @@ import javax.swing.table.JTableHeader;
 
 import org.hibernate.Session;
 
+import Components.MyScrollPane;
 import Components.MySpinner;
 import Components.MyTextField;
 import Components.SpinnerEditor;
@@ -67,7 +67,7 @@ public class Catalog extends Pane {
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createSearchPanel());
-		add(new JScrollPane(createTable()));
+		add(new MyScrollPane(createTable()));
 		add(createViewMenu());
 	}
 

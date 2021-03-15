@@ -2,9 +2,12 @@ package Components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -17,8 +20,10 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
@@ -38,6 +43,8 @@ public abstract class MyDialog extends JDialog {
 
 	protected JToolBar statusBar = new JToolBar();
 	protected MyGroupBox panel = new MyGroupBox();
+	protected JButton saveButton = null;
+	protected JButton saveAndUpdateButton = null;
 
 	private void init() {
 		setModalityType(ModalityType.MODELESS);
@@ -54,6 +61,22 @@ public abstract class MyDialog extends JDialog {
 		panel.setBorder(new CompoundBorder(margin, border));
 		
 		getContentPane().setBackground( Color.white );
+	}
+	
+	public Component add(Component comp)
+	{
+		GridBagConstraints gridBagConstraint = new GridBagConstraints();
+		gridBagConstraint.insets = new Insets(0, 0, 2, 0);
+		gridBagConstraint.gridx = 0;
+		gridBagConstraint.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraint.gridwidth = GridBagConstraints.REMAINDER;
+		gridBagConstraint.weightx = 1.0f;
+		panel.add(comp, gridBagConstraint);
+		return comp;
+	}
+	
+	public void addComponentWithLabel(String labelText, Component comp) {
+		panel.addComponentWithLabel(labelText, comp);
 	}
 
 	public MyDialog() {
@@ -146,9 +169,11 @@ public abstract class MyDialog extends JDialog {
 		Border margin = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		statusBar.setBorder(new CompoundBorder(border, margin));
 		statusBar.add(Box.createHorizontalGlue());
-		statusBar.add(new SaveAction()).setFocusPainted(false);
+		saveButton = statusBar.add(new SaveAction());
+		saveButton.setFocusPainted(false);
 		statusBar.addSeparator(Utils.weight);
-		statusBar.add(new SaveAndExitAction()).setFocusPainted(false);
+		saveAndUpdateButton = statusBar.add(new SaveAndExitAction());
+		saveAndUpdateButton.setFocusPainted(false);
 	}
 
 	// закрытие окна диалога по нажатию клавиши Escape

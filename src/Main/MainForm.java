@@ -25,12 +25,11 @@ import Components.MyButton;
 import Components.Utils;
 import Database.HibernateUtil;
 import Database.Librarian;
-import Forms.AuthorizationDialog;
 import Forms.GetBookDialog;
 import Forms.LibrarianDialog;
 import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
-import Settings.ApplicationSettings;
+import Settings.SettingsDialog;
 import Views.Catalog;
 import Views.Readers;
 
@@ -43,6 +42,7 @@ public class MainForm extends JFrame {
 
 	Catalog catalogView = new Catalog(this);
 	Readers readersView = new Readers(this);
+	SettingsDialog settingsDialog = new SettingsDialog(this);
 
 	ReceiveBookDialog receiveBookDialog = new ReceiveBookDialog(this);
 	GetBookDialog getBookDialog = new GetBookDialog(this);
@@ -64,8 +64,6 @@ public class MainForm extends JFrame {
 		Dimension weight = new Dimension(5, 5);
 		Dimension sz = new Dimension(100, 150);
 
-//		Function<String, String> multiLine = (text) -> "<html>" + text.replaceAll(" ", "<br>") + "</html>";
-
 		MyButton btn = null;
 		JToggleButton tbtn = null;
 
@@ -79,8 +77,7 @@ public class MainForm extends JFrame {
 		((JToggleButton)tbtn).setSelected(true);
 		panes.add(catalogView, tbtn.getText());
 		toolBar.addSeparator(weight);
-		tbtn = (JToggleButton) toolBar
-				.add(new JToggleButton(Utils.makeMultiLine("История выдач"), new ImageIcon("icons\\books (1).png")));
+		tbtn = (JToggleButton) toolBar.add(new JToggleButton(Utils.makeMultiLine("История выдач"), new ImageIcon("icons\\books (1).png")));
 		views.add(tbtn);
 		panes.add(new JButton("История выдач"), tbtn.getText());
 		toolBar.addSeparator(weight);
@@ -98,7 +95,7 @@ public class MainForm extends JFrame {
 		toolBar.addSeparator(weight);
 		toolBar.add(Box.createHorizontalGlue());
 		btn = (MyButton) toolBar.add(new MyButton("Настройки", new ImageIcon("icons\\manual.png")));
-		btn.addActionListener(e -> receiveBookDialog.show());
+		btn.addActionListener(e -> settingsDialog.show());
 
 		for (JToggleButton button : views) {
 			button.setMaximumSize(sz);

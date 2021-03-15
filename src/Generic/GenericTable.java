@@ -2,6 +2,7 @@ package Generic;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -164,7 +166,7 @@ public class GenericTable<T> extends JTable {
 			T book = items.get(row);
 
 			Class myClass = book.getClass();
-			Field[] fields = myClass.getDeclaredFields();
+			Field[] fields = myClass.getFields();
 			Object value;
 			try {
 				value = fields[col - 1].get(book);
@@ -199,7 +201,7 @@ public class GenericTable<T> extends JTable {
 		public void setValueAt(Object value, int row, int col) {
 			T book = items.get(row);
 			Class myClass = book.getClass();
-			Field[] fields = myClass.getDeclaredFields();
+			Field[] fields = myClass.getFields();
 			Object value1;
 			try {
 				fields[col - 1].set(book, value);

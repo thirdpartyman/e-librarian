@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Components.Utils;
 import Generic.Filterable;
 
 @Entity
@@ -34,6 +35,13 @@ public class PublishHouse implements Serializable, Comparable<PublishHouse>, Fil
     public String toString()
     {
 		return '"' + name + '"' + ", " + city;   	
+    }
+    
+    @Override
+    public boolean equals(Object obj) { 
+    	if (obj == null) return false;
+    	PublishHouse publishHouse = (PublishHouse)obj;
+        return id == publishHouse.id && name.equals(publishHouse.name) && city.equals(publishHouse.city); 
     }
 
 	@Override

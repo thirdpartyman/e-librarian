@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Components.Utils;
 import Generic.Filterable;
 
 @Entity
@@ -33,6 +34,13 @@ public class BBK implements Serializable, Comparable<BBK>, Filterable{
     public String toString()
     {
 		return index + ' ' + text;   	
+    }
+    
+    @Override
+    public boolean equals(Object obj) { 
+    	if (obj == null) return false;
+    	BBK bbk = (BBK)obj;
+        return index.equals(bbk.index) && text.equals(bbk.text); 
     }
     
 	@Override

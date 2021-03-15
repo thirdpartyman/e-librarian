@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Components.Utils;
 import Generic.Filterable;
 
 @Entity
@@ -40,6 +41,18 @@ public class Book implements Serializable, Comparable<Book>, Filterable{
     @Column(name = "release_year")
 	public Short releaseYear;
     
+    @Override
+    public String toString()
+    {
+		return '\"' + name + '\"' + (releaseYear != null ? " (" + releaseYear + ")" : "") + " - " + author.name;   	
+    }
+    
+    @Override
+    public boolean equals(Object obj) { 
+    	if (obj == null) return false;
+    	Book book = (Book)obj;
+        return ISBN.equals(book.ISBN) && name.equals(book.name) && author.equals(book.author) && publishHouse.equals(book.publishHouse); 
+    }
     
 	@Override
 	public int compareTo(Book o) {

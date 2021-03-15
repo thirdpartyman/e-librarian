@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import Components.Utils;
 import Generic.Filterable;
 
 @Entity
@@ -46,4 +47,12 @@ public class Formular implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "librarian_id")
 	public Librarian librarian;
+	
+	
+    @Override
+    public boolean equals(Object obj) { 
+    	if (obj == null) return false;
+    	Formular formular = (Formular)obj;
+        return reader.equals(formular.reader) && book.equals(formular.book) && librarian.equals(formular.librarian) && issueDate.equals(formular.issueDate); 
+    }
 }

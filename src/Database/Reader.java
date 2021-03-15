@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Components.Utils;
 import Generic.Filterable;
 
 
@@ -34,7 +35,20 @@ public class Reader implements Serializable, Comparable<Reader>, Filterable {
 	@Column (nullable = false, unique = true)
 	public String passport;
 
-	
+    
+    @Override
+    public String toString()
+    {
+		return FIO;   	
+    }
+    
+    @Override
+    public boolean equals(Object obj) { 
+    	if (obj == null) return false;
+    	Reader reader = (Reader)obj;
+        return libraryCardNumber == reader.libraryCardNumber && FIO.equals(reader.FIO) && phone.equals(reader.phone) && adress.equals(reader.adress) && passport.equals(reader.passport); 
+    }
+    
 	@Override
 	public int compareTo(Reader o) {
 		return FIO.compareTo(o.FIO);

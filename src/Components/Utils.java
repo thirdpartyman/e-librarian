@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
@@ -49,6 +50,21 @@ public class Utils {
 		d.reset();
 		d.update(new String(chars).getBytes());
 		return new String(d.digest());
+	}
+	
+	public static <T> boolean fieldsAreNotNull(T object)
+	{
+    	for(Field field : object.getClass().getDeclaredFields())
+    	{	
+    		try {
+				if (field.get(object) == null)
+					return false;
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+				return false;
+			}
+    	}
+    	return true;
 	}
 
 	public static void reloadBBKtable() {

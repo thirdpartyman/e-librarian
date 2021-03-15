@@ -1,0 +1,11 @@
+{
+  "enable-edit-catalog-view": false,
+  "enable-edit-readers-view": false,
+  "save-tables-columns": false,
+  "show-main-menu-buttons-titles": true,
+  "show-tables-menu-buttons-titles": true,
+  "catalog-columns-sizes": [ ],
+  "formulars-columns-sizes": [ ],
+  "readers-columns-sizes": [ ],
+  "librarians-columns-sizes": [ ]
+}

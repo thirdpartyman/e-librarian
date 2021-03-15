@@ -19,6 +19,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.jdatepicker.JDatePicker;
 
@@ -61,6 +63,16 @@ public class GetBookDialog extends MyDialog {
 		setIconImage(icon.getImage());
 	
 		statusBar.remove(1);
+		
+//		((JTextField)librarianComboBox.getEditor().getEditorComponent()).setDisabledTextColor(Color.black);
+//		((JTextField)librarianComboBox.getEditor().getEditorComponent()).dis(Color.black);
+//		librarianComboBox.setEnabled(false);
+//		librarianComboBox.setForeground(Color.black);
+		UIManager.put("ComboBox.disabledForeground", Color.black);
+		
+		librarianComboBox.setEnabled(false);
+//        ((JTextField) librarianComboBox.getEditor().getEditorComponent()).setDisabledTextColor(Color.red);
+//        ((JTextField) librarianComboBox.getEditor().getEditorComponent()).setBackground(Color.green);
 	}
 
 	private void createLayout() {
@@ -160,7 +172,8 @@ public class GetBookDialog extends MyDialog {
 		librarianComboBox.setTableData(new Vector(HibernateUtil.loadAllData(Librarian.class)));
 		
 		readerComboBox.setSelectedIndex(-1);
-		librarianComboBox.setSelectedIndex(-1);
+//		librarianComboBox.setSelectedIndex(-1);
+		librarianComboBox.setValue(Settings.ApplicationSettings.authorizedLibrarian);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());

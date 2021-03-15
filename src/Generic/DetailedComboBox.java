@@ -96,6 +96,11 @@ public class DetailedComboBox extends JComboBox {
 			}
 		}
 	}
+	
+	public void setValue(Object object)
+	{
+		super.setSelectedIndex(tableData.indexOf(object));
+	}
 
 	public Object getValue() {
 		int index = getSelectedIndex();

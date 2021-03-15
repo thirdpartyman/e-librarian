@@ -31,7 +31,7 @@ public class AuthorizationDialog {
 		options = new String[] { "Войти", "Выйти из приложения" };
 		
 		int option = JOptionPane.showOptionDialog(null, panel, "Авторизация", JOptionPane.YES_NO_OPTION,
-				JOptionPane.PLAIN_MESSAGE, icon, options, null);
+				JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 
 		if (option == 1) System.exit(0);
 		
@@ -50,7 +50,7 @@ public class AuthorizationDialog {
 		options = new String[] { "Войти" };
 
 		int option = JOptionPane.showOptionDialog(null, panel, "Авторизация", JOptionPane.YES_OPTION,
-				JOptionPane.PLAIN_MESSAGE, icon, options, null);
+				JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 
 		System.err.println(option);
 		System.err.println(librarianComboBox.getSelectedIndex());

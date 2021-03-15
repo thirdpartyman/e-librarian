@@ -25,10 +25,12 @@ import Components.MyButton;
 import Components.Utils;
 import Database.HibernateUtil;
 import Database.Librarian;
+import Forms.AuthorizationDialog;
 import Forms.GetBookDialog;
 import Forms.LibrarianDialog;
 import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
+import Settings.ApplicationSettings;
 import Settings.SettingsDialog;
 import Views.Catalog;
 import Views.Readers;
@@ -145,11 +147,11 @@ public class MainForm extends JFrame {
 			librarianDialog.show();
 		}
 
-//		AuthorizationDialog authorizationDialog = new AuthorizationDialog();
-//		do
-//		{
-//			ApplicationSettings.authorizedLibrarian = authorizationDialog.show();
-//		}while(ApplicationSettings.authorizedLibrarian == null);
+		AuthorizationDialog authorizationDialog = new AuthorizationDialog();
+		do
+		{
+			ApplicationSettings.authorizedLibrarian = authorizationDialog.show();
+		}while(ApplicationSettings.authorizedLibrarian == null);
 	}
 
 }

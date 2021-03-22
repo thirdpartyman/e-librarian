@@ -46,19 +46,19 @@ import Generic.GenericComboBox;
 import Generic.GenericTable;
 import Main.MainForm;
 
-public class Catalog extends Pane {
+public class CatalogView extends Pane {
 	SearchPanel searchPanel;
 	GenericTable table;
 	ViewMenu tableMenu;
 	
 	ReceiveBookDialog receiveBookDialog;
 	
-	public Catalog() {
+	public CatalogView() {
 		init();
 		receiveBookDialog = new ReceiveBookDialog();
 	}
 
-	public Catalog(MainForm mainForm) {
+	public CatalogView(MainForm mainForm) {
 		init();
 		receiveBookDialog = new ReceiveBookDialog(mainForm);
 	}

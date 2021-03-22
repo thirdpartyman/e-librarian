@@ -32,8 +32,8 @@ import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
 import Settings.ApplicationSettings;
 import Settings.SettingsDialog;
-import Views.Catalog;
-import Views.Readers;
+import Views.CatalogView;
+import Views.ReadersView;
 
 public class MainForm extends JFrame {
 
@@ -42,8 +42,8 @@ public class MainForm extends JFrame {
 	 */
 	private static final long serialVersionUID = 2062760208030859011L;
 
-	Catalog catalogView = new Catalog(this);
-	Readers readersView = new Readers(this);
+	CatalogView catalogView = new CatalogView(this);
+	ReadersView readersView = new ReadersView(this);
 	SettingsDialog settingsDialog = new SettingsDialog(this);
 
 	ReceiveBookDialog receiveBookDialog = new ReceiveBookDialog(this);

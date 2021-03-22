@@ -27,19 +27,19 @@ import Forms.ReaderDialog;
 import Generic.GenericTable;
 import Main.MainForm;
 
-public class Readers extends Pane{
+public class ReadersView extends Pane{
 	SearchPanel searchPanel;
 	GenericTable table;
 	ViewMenu tableMenu;
 	
 	ReaderDialog readerDialog;
 	
-	public Readers() {
+	public ReadersView() {
 		init();
 		readerDialog = new ReaderDialog();
 	}
 
-	public Readers(MainForm mainForm) {
+	public ReadersView(MainForm mainForm) {
 		init();
 		readerDialog = new ReaderDialog(mainForm);
 	}

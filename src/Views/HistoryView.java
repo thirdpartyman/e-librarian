@@ -1,5 +1,5 @@
 package Views;
 
-public class History extends Pane{
+public class HistoryView extends Pane{
 
 }

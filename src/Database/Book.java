@@ -44,14 +44,20 @@ public class Book implements Serializable, Comparable<Book>, Filterable{
     @Override
     public String toString()
     {
-		return '\"' + name + '\"' + (releaseYear != null ? " (" + releaseYear + ")" : "") + " - " + author.name;   	
+		return '\"' + name + '\"' + (releaseYear != null ? " (" + releaseYear + ")" : "") + " - " + (releaseYear != null ? author.name : "");   	
     }
     
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof Book)) return false;
     	Book book = (Book)obj;
-        return ISBN.equals(book.ISBN) && name.equals(book.name) && author.equals(book.author) && publishHouse.equals(book.publishHouse); 
+        return ISBN.equals(book.ISBN) && 
+        		name.equals(book.name) && 
+        		(author == null || book.author == null) ? 
+        				(author == null && book.author == null) : author.equals(book.author) && 
+        		(publishHouse == null || book.publishHouse == null) ? 
+        				(publishHouse == null && book.publishHouse == null) : publishHouse.equals(book.publishHouse); 
     }
     
 	@Override

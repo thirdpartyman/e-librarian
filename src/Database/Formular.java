@@ -52,6 +52,7 @@ public class Formular implements Serializable {
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof Formular)) return false;
     	Formular formular = (Formular)obj;
         return reader.equals(formular.reader) && book.equals(formular.book) && librarian.equals(formular.librarian) && issueDate.equals(formular.issueDate); 
     }

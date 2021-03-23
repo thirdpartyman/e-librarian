@@ -47,6 +47,7 @@ public class Librarian implements Serializable, Comparable<Librarian>, Filterabl
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof Librarian)) return false;
     	Librarian librarian = (Librarian)obj;
         return id == librarian.id && FIO.equals(librarian.FIO) && phone.equals(librarian.phone) && adress.equals(librarian.adress) && password.equals(librarian.password); 
     }

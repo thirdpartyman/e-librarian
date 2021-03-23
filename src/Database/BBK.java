@@ -39,6 +39,7 @@ public class BBK implements Serializable, Comparable<BBK>, Filterable{
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof BBK)) return false;
     	BBK bbk = (BBK)obj;
         return index.equals(bbk.index) && text.equals(bbk.text); 
     }

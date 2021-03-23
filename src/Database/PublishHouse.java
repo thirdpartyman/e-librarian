@@ -40,6 +40,7 @@ public class PublishHouse implements Serializable, Comparable<PublishHouse>, Fil
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof PublishHouse)) return false;
     	PublishHouse publishHouse = (PublishHouse)obj;
         return id == publishHouse.id && name.equals(publishHouse.name) && city.equals(publishHouse.city); 
     }

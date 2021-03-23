@@ -45,6 +45,7 @@ public class Reader implements Serializable, Comparable<Reader>, Filterable {
     @Override
     public boolean equals(Object obj) { 
     	if (obj == null) return false;
+    	if (!(obj instanceof Reader)) return false;
     	Reader reader = (Reader)obj;
         return libraryCardNumber == reader.libraryCardNumber && FIO.equals(reader.FIO) && phone.equals(reader.phone) && adress.equals(reader.adress) && passport.equals(reader.passport); 
     }

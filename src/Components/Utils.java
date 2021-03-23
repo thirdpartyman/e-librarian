@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -65,6 +66,17 @@ public class Utils {
 			}
     	}
     	return true;
+	}
+	
+	public static Date removeTime(Date date)
+	{
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(date);
+		instance.set(Calendar.HOUR_OF_DAY, 0);
+		instance.set(Calendar.MINUTE, 0);
+		instance.set(Calendar.SECOND, 0);
+		instance.set(Calendar.MILLISECOND, 0);
+		return instance.getTime();
 	}
 
 	public static void reloadBBKtable() {

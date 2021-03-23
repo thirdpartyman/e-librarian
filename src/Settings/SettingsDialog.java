@@ -1,6 +1,8 @@
 package Settings;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
@@ -20,11 +22,16 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.JTableHeader;
 
 import Components.MyCheckBox;
@@ -85,8 +92,8 @@ public class SettingsDialog extends MyDialog {
             }
         });
 		settingsPanel.add(checkBox);
-		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
-
+		addLine();
+		
 		checkBox = new MyCheckBox("Показывать подписи кнопок главного меню", 
 				Settings.ApplicationSettings.Configuration.showMainMenuButtonsTitles);
 		checkBox.addItemListener(new ItemListener() {
@@ -95,8 +102,8 @@ public class SettingsDialog extends MyDialog {
             }
         });
 		settingsPanel.add(checkBox);
-		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
-
+		addLine();
+		
 		checkBox = new MyCheckBox("Показывать подписи кнопок меню таблиц", 
 				Settings.ApplicationSettings.Configuration.showTablesMenuButtonsTitles);
 		checkBox.addItemListener(new ItemListener() {
@@ -105,10 +112,33 @@ public class SettingsDialog extends MyDialog {
             }
         });
 		settingsPanel.add(checkBox);
-		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
+		addLine();
+		
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
+		JSpinner maxPeriodSpinner = new JSpinner();
+		maxPeriodSpinner.setValue(Settings.ApplicationSettings.Configuration.maxPeriodBookHolding);
+		maxPeriodSpinner.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+            	Settings.ApplicationSettings.Configuration.maxPeriodBookHolding = (int) maxPeriodSpinner.getValue();				
+			}
+        });
+		p.add(maxPeriodSpinner, BorderLayout.WEST);
+		p.add(new JLabel("Максимальный период удержания книги"));
+		settingsPanel.add(p).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 30));
+		p.setAlignmentX( Component.LEFT_ALIGNMENT );
+		((JSpinner.DefaultEditor) maxPeriodSpinner.getEditor()).getTextField().setColumns(1);
+		p.add(Box.createHorizontalGlue());
+		addLine();
+		
 		settingsPanel.add(Box.createVerticalGlue());
 	}
 
+	private void addLine()
+	{
+		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL)).setMaximumSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width * 3, 3));
+	}
 	
 
 	GenericTable table = new GenericTable<Librarian>(Librarian.class,

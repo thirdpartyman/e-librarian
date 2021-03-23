@@ -7,5 +7,6 @@
   "catalog-columns-sizes": [ ],
   "formulars-columns-sizes": [ ],
   "readers-columns-sizes": [ ],
-  "librarians-columns-sizes": [ ]
+  "librarians-columns-sizes": [ ],
+  "max-period-book-holding": 7
 }

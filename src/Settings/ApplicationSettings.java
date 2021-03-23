@@ -61,6 +61,9 @@ public class ApplicationSettings {
 		@Comment("Показывать подписи кнопок меню таблиц")
 		public boolean showTablesMenuButtonsTitles = true;
 		
+		@Comment("Максимальный период удержания книги")
+		public int maxPeriodBookHolding = 0;
+		
 		@Comment("Размеры столбцов таблицы Catalog")
 		public List<Integer> catalogColumnsSizes = new ArrayList<>();
 		@Comment("Размеры столбцов таблицы Formulars")

@@ -33,6 +33,7 @@ import Forms.ReceiveBookDialog;
 import Settings.ApplicationSettings;
 import Settings.SettingsDialog;
 import Views.CatalogView;
+import Views.HistoryView;
 import Views.ReadersView;
 
 public class MainForm extends JFrame {
@@ -43,6 +44,7 @@ public class MainForm extends JFrame {
 	private static final long serialVersionUID = 2062760208030859011L;
 
 	CatalogView catalogView = new CatalogView(this);
+	HistoryView historyView = new HistoryView(this);
 	ReadersView readersView = new ReadersView(this);
 	SettingsDialog settingsDialog = new SettingsDialog(this);
 
@@ -81,7 +83,7 @@ public class MainForm extends JFrame {
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar.add(new JToggleButton(Utils.makeMultiLine("История выдач"), new ImageIcon("icons\\books (1).png")));
 		views.add(tbtn);
-		panes.add(new JButton("История выдач"), tbtn.getText());
+		panes.add(historyView, tbtn.getText());
 		toolBar.addSeparator(weight);
 		tbtn = (JToggleButton) toolBar.add(new JToggleButton("Читатели", new ImageIcon("icons\\driving-license.png")));
 		views.add(tbtn);

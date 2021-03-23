@@ -154,7 +154,7 @@ public class ReadersView extends Pane{
 			boolean value = e.getStateChange() == ItemEvent.SELECTED;
 			Settings.ApplicationSettings.Configuration.enableEditReadersView = value;
 			Settings.ApplicationSettings.save();
-			for(int index = 2; index < 2 + 5; index++)
+			for(int index = 2; index < table.getColumnCount(); index++)
 				table.setEditable(index, value);
 		});
 		return tableMenu;

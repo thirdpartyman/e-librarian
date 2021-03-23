@@ -7,6 +7,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,12 +60,13 @@ public class GenericTable<T> extends JTable {
 			}
 		});
 		
-		addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				super.focusLost(e);
-				getSelectionModel().clearSelection();
-			}
-		});
+//		addFocusListener(new FocusAdapter() {
+//			public void focusLost(FocusEvent e) {
+//				super.focusLost(e);
+//				getSelectionModel().clearSelection();
+//			}
+//		});
+		
 	}
 	
 	public void removeItems(List<T> items)
@@ -163,14 +166,15 @@ public class GenericTable<T> extends JTable {
 		public Object getValueAt(int row, int col) {
 			if (col == 0) return row + 1;
 			
-			T book = items.get(row);
+			T obj = items.get(row);
 
-			Class myClass = book.getClass();
+			Class myClass = obj.getClass();
 			Field[] fields = myClass.getFields();
 			Object value;
 			try {
-				value = fields[col - 1].get(book);
+				value = fields[col - 1].get(obj);
 			} catch (IllegalAccessException e) {
+				System.err.printf("%d, %d", row, col);
 				value = null;
 			}
 			return value;
@@ -191,7 +195,19 @@ public class GenericTable<T> extends JTable {
 			if (items.isEmpty()) {
 				return Object.class;
 			}
-			return getValueAt(0, columnIndex).getClass();
+
+			T obj = items.get(0);
+
+			Class myClass = obj.getClass();
+			Field[] fields = myClass.getFields();
+			return fields[columnIndex - 1].getClass();
+
+//
+//			}catch(NullPointerException e)
+//			{
+//				System.out.println(columnIndex);
+// return String.class;
+//			}
 		}
 
 		public boolean isCellEditable(int row, int col) {

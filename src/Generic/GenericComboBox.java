@@ -127,12 +127,17 @@ public class GenericComboBox<T> extends JComboBox<T> {
 		model.vsrc = vec;
 		model.filter("");
 	}
+	
+	@Override
+    public Object getSelectedItem() {
+        return super.getSelectedItem() instanceof String ? null : super.getSelectedItem();
+    }
 
 	class Model extends AbstractListModel<T> implements ComboBoxModel<T> {
 		T selectItem;
 
-		public void setSelectedItem(Object anItem) {
-			this.selectItem = (T) anItem;
+		public void setSelectedItem(Object selected) {
+			this.selectItem = (T) selected;
 		}
 
 		public T getSelectedItem() {

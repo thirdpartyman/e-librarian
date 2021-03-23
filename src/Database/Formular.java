@@ -1,6 +1,8 @@
 package Database;
 
+import java.awt.Color;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -47,6 +49,21 @@ public class Formular implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "librarian_id")
 	public Librarian librarian;
+	
+	boolean isIssued()
+	{
+		return returnDate == null;
+	}
+	
+	boolean isExpired()
+	{
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(issueDate);
+		instance.add(Calendar.DATE, Settings.ApplicationSettings.Configuration.maxPeriodBookHolding);
+		Date returnDate = instance.getTime();
+		Date nowDate = Utils.removeTime(new Date());
+		return !returnDate.after(nowDate);
+	}
 	
 	
     @Override

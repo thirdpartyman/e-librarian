@@ -15,8 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import Components.Utils;
 import Generic.Filterable;
+import Util.Utils;
 
 @Entity
 @Table(name = "formulars")

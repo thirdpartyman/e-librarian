@@ -11,8 +11,8 @@ import javax.swing.JTextField;
 
 import Components.MyDialog;
 import Components.MyTextField;
-import Components.Utils;
 import Database.Librarian;
+import Util.Utils;
 
 public class LibrarianDialog extends MyDialog {
 

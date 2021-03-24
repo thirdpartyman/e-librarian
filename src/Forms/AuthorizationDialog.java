@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import Components.MyGroupBox;
-import Components.Utils;
 import Database.HibernateUtil;
 import Database.Librarian;
 import Generic.GenericComboBox;
+import Util.Utils;
 
 public class AuthorizationDialog {
 

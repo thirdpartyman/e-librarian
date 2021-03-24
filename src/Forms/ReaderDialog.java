@@ -22,8 +22,8 @@ import javax.swing.SwingConstants;
 import Components.MyDialog;
 import Components.MyScrollPane;
 import Components.MyTextField;
-import Components.Utils;
 import Database.Reader;
+import Util.Utils;
 import Views.HistoryViewTable;
 
 public class ReaderDialog extends MyDialog {

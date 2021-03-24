@@ -39,6 +39,7 @@ import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 
 import Database.HibernateUtil;
+import Util.Utils;
 
 public abstract class MyDialog extends JDialog {
 

@@ -40,7 +40,6 @@ import javax.swing.table.TableCellRenderer;
 import org.hibernate.Session;
 
 import Components.MyScrollPane;
-import Components.Utils;
 import Database.Book;
 import Database.Formular;
 import Database.HibernateUtil;
@@ -49,6 +48,7 @@ import Forms.ReturnBookDialog;
 import Generic.GenericComboBox;
 import Generic.GenericTable;
 import Main.MainForm;
+import Util.Utils;
 
 public class HistoryView extends Pane {
 	SearchPanel searchPanel;

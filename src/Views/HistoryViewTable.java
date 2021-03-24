@@ -21,10 +21,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-import Components.Utils;
 import Database.Formular;
 import Forms.ReturnBookDialog;
 import Generic.GenericTable;
+import Util.Utils;
 
 public class HistoryViewTable extends GenericTable<Formular> {
 

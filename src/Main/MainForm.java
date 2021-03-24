@@ -22,7 +22,6 @@ import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import Components.MyButton;
-import Components.Utils;
 import Database.HibernateUtil;
 import Database.Librarian;
 import Forms.AuthorizationDialog;
@@ -32,6 +31,7 @@ import Forms.ReaderDialog;
 import Forms.ReceiveBookDialog;
 import Settings.ApplicationSettings;
 import Settings.SettingsDialog;
+import Util.Utils;
 import Views.CatalogView;
 import Views.HistoryView;
 import Views.ReadersView;

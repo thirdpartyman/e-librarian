@@ -1,4 +1,4 @@
-package Components;
+package Util;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;

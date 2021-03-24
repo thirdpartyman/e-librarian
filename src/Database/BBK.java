@@ -9,8 +9,8 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import Components.Utils;
 import Generic.Filterable;
+import Util.Utils;
 
 @Entity
 @Table (name = "bbk")

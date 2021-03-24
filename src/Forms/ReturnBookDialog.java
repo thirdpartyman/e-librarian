@@ -26,13 +26,13 @@ import javax.swing.UIManager;
 import org.jdatepicker.JDatePicker;
 
 import Components.MyDialog;
-import Components.Utils;
 import Database.Book;
 import Database.Formular;
 import Database.HibernateUtil;
 import Database.Librarian;
 import Database.Reader;
 import Generic.DetailedComboBox;
+import Util.Utils;
 
 public class ReturnBookDialog extends MyDialog {
 

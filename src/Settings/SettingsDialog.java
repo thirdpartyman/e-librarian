@@ -37,11 +37,11 @@ import javax.swing.table.JTableHeader;
 import Components.MyCheckBox;
 import Components.MyDialog;
 import Components.MyScrollPane;
-import Components.Utils;
 import Database.Librarian;
 import Forms.AuthorizationDialog;
 import Forms.LibrarianDialog;
 import Generic.GenericTable;
+import Util.Utils;
 
 public class SettingsDialog extends MyDialog {
 

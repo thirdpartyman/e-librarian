@@ -136,10 +136,13 @@ public class HistoryView extends Pane {
 				
 				Calendar instance = Calendar.getInstance();
 				instance.setTime(Utils.removeTime(new Date()));
+//				instance.setTime(new Date());
 				instance.roll(Calendar.DATE, -Settings.ApplicationSettings.Configuration.maxPeriodBookHolding);
 				Date returnDate = instance.getTime();
+				
+				System.err.println(returnDate);
 
-				params.add(cb.greaterThan(root.get("issueDate"), returnDate ));
+				params.add(cb.lessThan(root.get("issueDate"), returnDate ));
 				break;
 			}
 
@@ -166,116 +169,13 @@ public class HistoryView extends Pane {
 	}
 
 	private GenericTable createTable() {
-		table = new GenericTable<Formular>(Formular.class,
-				new String[] { "Читатель", "Книга", "Дата выдачи", "Дата возврата", "Библиотекарь" });
-
-		Font font = new Font("Verdana", Font.PLAIN, 12);
-		table.setFont(font);
-		table.setRowHeight(30);
-		table.setBackground(Color.orange);
-//		table.setForeground(Color.white);
-
-		JTableHeader header = table.getTableHeader();
-		header.setPreferredSize(new Dimension(header.getPreferredSize().width, 32));
-		table.getTableHeader().setOpaque(false);
-		table.getTableHeader().setBackground(new Color(93, 163, 226));
-		table.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 12));
-
-		for (int i = 0; i != table.getColumnCount(); i++)
-			table.getColumnModel().getColumn(i).setCellRenderer(new FormularsTableRenderer());
-
-		table.removeKeyListener(table.getKeyListeners()[0]);
-
-		final JPopupMenu popup = new JPopupMenu();
-		JMenuItem menuItem = new JMenuItem("Открыть", new ImageIcon("icons/newproject.png"));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				returnBookDialog.show(table.getItems().get(table.rowAtPoint(popup.getLocation())));
-			}
-		});
-		popup.add(menuItem);
-		menuItem = new JMenuItem("Удалить", new ImageIcon("icons/newproject.png"));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				table.removeItems(table.getSelectedItems());
-			}
-		});
-		popup.add(menuItem);
-		menuItem = new JMenuItem("Книга возвращена", new ImageIcon("icons/newproject.png"));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for(Formular item : table.getSelectedItems())	
-					item.returnDate = new java.sql.Date(Utils.removeTime(new Date()).getTime());
-				table.updateUI();
-			}
-		});
-		popup.add(menuItem);
-
-		
-//		table.setComponentPopupMenu(popup);
-
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
-					returnBookDialog.show(table.getSelectedItem());
-				else
-					if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1)
-					{
-						int[] selectedRows = table.getSelectedRows();
-						int currentRow = table.rowAtPoint(e.getPoint());
-						if (!Arrays.stream(selectedRows).anyMatch(i -> i == currentRow))
-							table.changeSelection(currentRow, currentRow, false, false);
-						
-						popup.show(table, e.getX(), e.getY());
-					}
-			}
-		});
+		table = new HistoryViewTable();
 
 		table.reload();
 
 		return table;
 	}
 
-	public static class FormularsTableRenderer extends JLabel implements TableCellRenderer {
-
-		public FormularsTableRenderer() {
-			super.setOpaque(true);
-		}
-
-		private static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-
-			GenericTable genericTable = (GenericTable) table;
-
-			Component renderer = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-					column);
-
-			if (isSelected) {
-				renderer.setBackground(table.getSelectionBackground());
-				return renderer;
-			}
-
-			if (table.getValueAt(row, 4) != null)
-				renderer.setBackground(Color.LIGHT_GRAY);
-			else {
-				Date issueDate = (Date) table.getValueAt(row, 3);
-				Calendar instance = Calendar.getInstance();
-				instance.setTime(issueDate);
-				instance.add(Calendar.DATE, Settings.ApplicationSettings.Configuration.maxPeriodBookHolding);
-				Date returnDate = instance.getTime();
-
-				Date nowDate = Utils.removeTime(new Date());
-
-				renderer.setBackground((returnDate.after(nowDate)) ? new Color(220, 73, 85) : new Color(183, 229, 70));
-			}
-
-			return renderer;
-		}
-
-	}
 
 	private ViewMenu createViewMenu() {
 		tableMenu = new ViewMenu();
@@ -284,7 +184,7 @@ public class HistoryView extends Pane {
 		tableMenu.addSaveChangesButtonListener(e -> table.saveChanges());
 
 //		tableMenu.enableEdit.setSelected(Settings.ApplicationSettings.Configuration.enableEditReadersView);
-		tableMenu.enableEdit.setEnabled(false);
+		tableMenu.enableEdit.setVisible(false);
 //		tableMenu.addEnableEditListener(e -> {
 //			boolean value = e.getStateChange() == ItemEvent.SELECTED;
 //			Settings.ApplicationSettings.Configuration.enableEditReadersView = value;

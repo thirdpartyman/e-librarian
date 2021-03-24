@@ -27,7 +27,6 @@
 	<classpathentry kind="lib" path="lib/jackson/jackson-annotations-2.12.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson/jackson-core-2.12.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson/jackson-databind-2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/mysql/mysql-connector-java-8.0.23.jar"/>
 	<classpathentry kind="lib" path="lib/h2/h2-1.4.200.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc/ojdbc8.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc/oraclepki.jar"/>

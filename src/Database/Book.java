@@ -51,7 +51,7 @@ public class Book implements Serializable, Comparable<Book>, Filterable{
     @Override
     public String toString()
     {
-		return '\"' + name + '\"' + (releaseYear != null ? " (" + releaseYear + ")" : "") + " - " + (releaseYear != null ? author.name : "");   	
+		return '\"' + name + '\"' + (releaseYear != null ? " (" + releaseYear + ")" : "") + " - " + (author != null ? author.name : "");   	
     }
     
     @Override

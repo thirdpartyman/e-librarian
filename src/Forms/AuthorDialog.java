@@ -59,7 +59,7 @@ public class AuthorDialog extends MyDialog {
 	{
 		Author author = (Author)this.object;
 		author.name = nameTextField.getText().trim();
-		author.birthYear = (Short) birthYearSpinner.getValue();
+		author.birthYear = birthYearSpinner.getShort();
 	}
 	
 	@Override

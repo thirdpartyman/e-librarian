@@ -35,7 +35,6 @@
 	<classpathentry kind="lib" path="lib/components/jdatepicker-2.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/settings/configurate-core-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/settings/configurate-jackson-4.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/settings/checker-qual-3.11.0.jar"/>
 	<classpathentry kind="lib" path="lib/settings/geantyref-1.3.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package Database;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 
@@ -41,6 +43,11 @@ public class Book implements Serializable, Comparable<Book>, Filterable{
     @Column(name = "release_year")
 	public Short releaseYear;
     
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book", cascade = CascadeType.ALL)
+    public List<Formular> formular;
+    
+    
     @Override
     public String toString()
     {
@@ -54,10 +61,10 @@ public class Book implements Serializable, Comparable<Book>, Filterable{
     	Book book = (Book)obj;
         return ISBN.equals(book.ISBN) && 
         		name.equals(book.name) && 
-        		(author == null || book.author == null) ? 
-        				(author == null && book.author == null) : author.equals(book.author) && 
-        		(publishHouse == null || book.publishHouse == null) ? 
-        				(publishHouse == null && book.publishHouse == null) : publishHouse.equals(book.publishHouse); 
+        		((author == null || book.author == null) ? 
+        				(author == null && book.author == null) : author.equals(book.author)) && 
+        		((publishHouse == null || book.publishHouse == null) ? 
+        				(publishHouse == null && book.publishHouse == null) : publishHouse.equals(book.publishHouse)); 
     }
     
 	@Override

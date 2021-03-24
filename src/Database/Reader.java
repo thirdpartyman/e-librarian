@@ -1,17 +1,20 @@
 package Database;
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import Components.Utils;
 import Generic.Filterable;
 
 
@@ -41,6 +44,11 @@ public class Reader implements Serializable, Comparable<Reader>, Filterable {
     {
 		return FIO;   	
     }
+    
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reader", cascade = CascadeType.ALL)
+    public List<Formular> takenBooks;
+    
     
     @Override
     public boolean equals(Object obj) { 

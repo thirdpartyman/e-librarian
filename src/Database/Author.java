@@ -41,7 +41,9 @@ public class Author implements Serializable, Comparable<Author>, Filterable {
     	if (obj == null) return false;
     	if (!(obj instanceof Author)) return false;
     	Author author = (Author)obj;
-        return id == author.id && name.equals(author.name) && (birthYear != null ? birthYear == author.birthYear : false); 
+        return id == author.id && name.equals(author.name) && 
+        		((birthYear == null || author.birthYear == null) ? 
+        				(birthYear == null && author.birthYear == null) : birthYear.equals(author.birthYear));
     }
 
 	@Override

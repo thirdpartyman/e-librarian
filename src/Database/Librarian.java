@@ -1,11 +1,15 @@
 package Database;
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 
@@ -36,6 +40,10 @@ public class Librarian implements Serializable, Comparable<Librarian>, Filterabl
     
     @Column(nullable = false)
     public String password;//хеш пароля
+    
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reader", cascade = CascadeType.ALL)
+    public List<Formular> issues;//выдачи
     
     
     @Override

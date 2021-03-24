@@ -20,6 +20,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -47,20 +48,21 @@ public abstract class MyDialog extends JDialog {
 	protected JButton saveAndUpdateButton = null;
 
 	private void init() {
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setModalityType(ModalityType.MODELESS);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setLocationRelativeTo(getParent());
 		setEscapeCloseOperation(this);
-		
-		createStatusBar();
-		getContentPane().add(statusBar, BorderLayout.PAGE_END);
-		
+				
 		getContentPane().add(panel);
 		Border border = panel.getBorder();
 		Border margin = new EmptyBorder(10, 10, 10, 10);
 		panel.setBorder(new CompoundBorder(margin, border));
 		
 		getContentPane().setBackground( Color.white );
+		
+		createStatusBar();
+		getContentPane().add(statusBar, BorderLayout.PAGE_END);
 	}
 	
 	@Override

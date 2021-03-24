@@ -51,4 +51,16 @@ public class MyGroupBox extends JPanel {
 		this.add(comp, gridBagConstraint);
 	}
 
+	
+	public Component add(Component comp)
+	{
+		GridBagConstraints gridBagConstraint = new GridBagConstraints();
+		gridBagConstraint.insets = new Insets(0, 0, 2, 0);
+		gridBagConstraint.gridx = 0;
+		gridBagConstraint.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraint.gridwidth = GridBagConstraints.REMAINDER;
+		gridBagConstraint.weightx = 1.0f;
+		this.add(comp, gridBagConstraint);
+		return comp;
+	}
 }

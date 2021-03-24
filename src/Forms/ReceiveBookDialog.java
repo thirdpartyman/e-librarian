@@ -1,8 +1,14 @@
 package Forms;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
@@ -11,14 +17,21 @@ import java.util.Vector;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import org.hibernate.Transaction;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
 import Components.MyButton;
 import Components.MyDialog;
+import Components.MyScrollPane;
 import Components.MySpinner;
 import Components.MyTextField;
 import Database.Author;
@@ -27,6 +40,7 @@ import Database.Book;
 import Database.HibernateUtil;
 import Database.PublishHouse;
 import Generic.GenericComboBox;
+import Views.HistoryViewTable;
 
 public class ReceiveBookDialog extends MyDialog {
 
@@ -119,13 +133,65 @@ public class ReceiveBookDialog extends MyDialog {
 		
 		panel.addComponentWithLabel("Год выпуска", releaseYearSpinner);
 
-		pack();
-		Dimension size = getSize();
-		size.width = (int) (size.height * 1.618);
-		setMinimumSize(size);// минимальный размер не может быть меньше рассчитанного при создании диалога
-
+		createAssociatedFormularsTable();
+		
+		pack();		
 	}
-
+	
+	JPanel formularsPanel = new JPanel();
+	HistoryViewTable table = new HistoryViewTable();
+	private void createAssociatedFormularsTable()
+	{
+		formularsPanel.setLayout(new BoxLayout(formularsPanel, BoxLayout.Y_AXIS));
+		getContentPane().add(formularsPanel, 1);
+		JPanel header = new JPanel();
+		header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+		header.setOpaque(false);
+		header.add(Box.createHorizontalGlue());
+		header.add(new JLabel("Формуляр", new ImageIcon("icons\\notes.png"), SwingConstants.LEADING )).setFont(new Font("Verdana", Font.BOLD, 14));
+		JCheckBox checkBox = new JCheckBox();
+		checkBox.setOpaque(false);
+		checkBox.setIcon(new ImageIcon("icons\\shutterstock_366984632.png"));
+		checkBox.setSelectedIcon(new ImageIcon("icons\\shutterstock_366984632 (1).png"));
+		header.add(Box.createHorizontalGlue());
+		header.add(checkBox);
+		formularsPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		formularsPanel.add(header);
+		formularsPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		var res = formularsPanel.add(new MyScrollPane(table));
+		res.setVisible(false);
+		header.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+	        public void mouseClicked(MouseEvent e) {
+				checkBox.setSelected(!checkBox.isSelected());
+	         } 
+		});
+		checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+            	res.setVisible(e.getStateChange() == ItemEvent.SELECTED);
+            	formularsPanel.updateUI();
+            	table.setPreferredScrollableViewportSize(table.getPreferredSize());
+            	table.setFillsViewportHeight(true);
+//            	Dimension size = getSize();
+//            	ReceiveBookDialog.super.pack();
+            	pack();
+//            	size.height = getHeight();
+//            	setSize(size);
+            }
+        });
+	}
+	
+	
+	@Override
+	public void pack()
+	{
+		super.pack();
+		Dimension size = getSize();
+		size.width = (int)(size.height * 1.618);
+		setSize(size);
+	}
+	
 	
 	@Override
 	protected void getInfo() throws ParseException
@@ -145,9 +211,7 @@ public class ReceiveBookDialog extends MyDialog {
 		book.publishHouse = (PublishHouse) publishHouseComboBox.getSelectedItem();
 		book.releaseYear = releaseYearSpinner.getShort();
 		
-		System.err.println(book.releaseYear);
-		
-//		Utils.print(book);
+		table.saveChanges();
 	}
 	
 	@Override
@@ -160,6 +224,16 @@ public class ReceiveBookDialog extends MyDialog {
 		authorComboBox.setSelectedItem(book.author);
 		publishHouseComboBox.setSelectedItem(book.publishHouse);
 		releaseYearSpinner.setValue(book.releaseYear);
+		
+		if (book.formular != null)
+		{
+			table.setItems(book.formular);
+			formularsPanel.setVisible(!book.formular.isEmpty());
+			table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		}
+		else
+			formularsPanel.setVisible(false);
+		pack();
 	}
 
 	@Override
